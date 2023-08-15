@@ -1,8 +1,10 @@
-import { Col, Row } from "antd";
+import { Col, Row, message } from "antd";
+import { kMaxLength } from "buffer";
 import ChatBody from "components/molecules/ChatBody";
 import ChatFooter from "components/molecules/ChatFooter";
 import ChatHeader from "components/molecules/ChatHeader";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { Message } from "types/message.types";
 
 interface Props {
   reciver: string;
@@ -10,8 +12,15 @@ interface Props {
 
 const ChatContents: FC<Props> = ({ reciver }) => {
 
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const messageFromInput = (value: Message) => {
+    messages.push(value)
+    setMessages([...messages])
+  }
+
   return (
-    <>
+    <React.Fragment>
       <Row>
         <Col>
           <ChatHeader reciver={reciver} />
@@ -19,15 +28,15 @@ const ChatContents: FC<Props> = ({ reciver }) => {
       </Row>
       <Row>
         <Col>
-          <ChatBody/>
+          <ChatBody messages={messages}/>
         </Col>
       </Row>
       <Row>
         <Col>
-          <ChatFooter />
+          <ChatFooter contentMessageSend={messageFromInput}/>
         </Col>
       </Row>
-    </>
+    </React.Fragment>
   );
 };
 

@@ -5,8 +5,7 @@ export const MessageReciver = styled.div`
 `;
 
 export const ContentMessageReciver = styled.div`
-  height: 100px;
-  max-height: 200px;
+  max-width: 80%;
   border: 2px solid #dedede;
   background-color: #f1f1f1;
   border-radius: 5px;

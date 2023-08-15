@@ -1,41 +1,31 @@
 import { Content } from "antd/es/layout/layout";
-import React from "react";
+import React, { FC, useEffect, useState } from "react";
 import Reciver from "../Reciver";
 import Sender from "../Sender";
+import { ContentChat } from "./style";
+import { Message } from "types/message.types";
 
-const ChatBody = () => {
+interface Props {
+  messages: Message[];
+}
+
+const ChatBody: FC<Props> = ({ messages }) => {
   return (
-    <Content
-      style={{
-        overflow: "auto",
-        background: "rgb(178 178 178)",
-        height: "80vh",
-        flex: 1,
-      }}
-    >
-      <div
-        style={{
-          padding: 24,
-        }}
-      >
-        {
+    <ContentChat>
+      {messages.map((message) => {
+        return message.type === "Reciver" ? (
           <React.Fragment>
-            <div>
-              <Reciver />
-              <br />
-              <Sender />
-            </div>
-            <div>
-              <Reciver />
-              <br />
-              <Sender />
-              <Sender />
-            </div>
+            <Reciver content={message.content} />
             <br />
           </React.Fragment>
-        }
-      </div>
-    </Content>
+        ) : (
+          <React.Fragment>
+            <Sender content={message.content} />
+            <br />
+          </React.Fragment>
+        );
+      })}
+    </ContentChat>
   );
 };
 

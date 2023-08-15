@@ -6,4 +6,6 @@ export const ContentChat = styled(Content)`
     background: rgb(178 178 178);
     height: 80vh;
     flex: 1;
+    padding: 24px;
+    width: 155vh
 `;

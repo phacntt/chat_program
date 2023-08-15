@@ -7,11 +7,16 @@ import { ColEmpty } from "./style";
 
 const ContainerLayout: React.FC = () => {
   const [roomName, setRoomName] = useState("");
+  const [messageSender, setMessageSender] = useState<string[]>([]);
   const [statusSelectRoom, setStatusSelectRoom] = useState(false);
 
   useEffect(() => {
     setStatusSelectRoom(!roomName ? false : true);
   }, [roomName]);
+
+  // useEffect(() => {
+  //   setMessageSender(messages);
+  // }, [messages]);
 
   const setKeyRoom = (value: any) => {
     setRoomName(value.key);
@@ -25,7 +30,7 @@ const ContainerLayout: React.FC = () => {
 
       {statusSelectRoom ? (
         <Col span={20}>
-          <ChatContents reciver={roomName} />
+          <ChatContents reciver={roomName}/>
         </Col>
       ) : (
         <ColEmpty span={20}>

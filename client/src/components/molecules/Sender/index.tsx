@@ -1,29 +1,19 @@
-import React from "react";
+import React, { FC } from "react";
 import { Avatar, Card, CardProps, TabPaneProps } from "antd";
 import { title } from "process";
 import { MessageSender, ContentMessageSender } from "./style";
 
-const Sender = () => {
+interface Props {
+  content: string;
+}
+
+const Sender: FC<Props> = ({ content }) => {
   return (
-    <>
+    <React.Fragment>
       <MessageSender>
-        <ContentMessageSender>Lorem ipsum dolor sit</ContentMessageSender>
+        <ContentMessageSender>{content}</ContentMessageSender>
       </MessageSender>
-      <MessageSender>
-        <ContentMessageSender>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio,
-          exercitationem saepe, nulla fugiat nobis aliquid nesciunt, a
-          laudantium repudiandae in id velit sint optio qui. Qui delectus
-          repellat aperiam amet.Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio,
-          exercitationem saepe, nulla fugiat nobis aliquid nesciunt, a
-          laudantium repudiandae in id velit sint optio qui. Qui delectus
-          repellat aperiam amet.Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio,
-          exercitationem saepe, nulla fugiat nobis aliquid nesciunt, a
-          laudantium repudiandae in id velit sint optio qui. Qui delectus
-          repellat aperiam amet.
-        </ContentMessageSender>
-      </MessageSender>
-    </>
+    </React.Fragment>
   );
 };
 

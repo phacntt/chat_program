@@ -1,11 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 import { Avatar, Card, CardProps, TabPaneProps } from "antd";
 import { title } from "process";
 import { MessageReciver, ContentMessageReciver } from "./style";
 
-const Reciver = () => {
+interface Props {
+  content: string;
+}
+
+const Reciver: FC<Props> = ({ content }) => {
   return (
-    <>
+    <React.Fragment>
       <MessageReciver>
         <div>
           <Avatar
@@ -13,25 +17,9 @@ const Reciver = () => {
             src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
           />
         </div>
-        <ContentMessageReciver>
-            Lorem ipsum dolor sit,
-        </ContentMessageReciver>
+        <ContentMessageReciver>{content}</ContentMessageReciver>
       </MessageReciver>
-      <MessageReciver>
-        <div>
-          <Avatar
-            size={"large"}
-            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
-          />
-        </div>
-        <ContentMessageReciver>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio,
-            exercitationem saepe, nulla fugiat nobis aliquid nesciunt, a
-            laudantium repudiandae in id velit sint optio qui. Qui delectus
-            repellat aperiam amet.
-        </ContentMessageReciver>
-      </MessageReciver>
-    </>
+    </React.Fragment>
   );
 };
 
