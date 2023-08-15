@@ -10,8 +10,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Menu, MenuProps, Space } from "antd";
-import { ItemType } from "antd/es/breadcrumb/Breadcrumb";
-import Sider from "antd/es/layout/Sider";
+import ContainerListRooms from "components/molecules/ContainerListRooms";
 import React, { FC } from "react";
 
 interface Props {
@@ -71,34 +70,17 @@ const items: MenuProps["items"] = [
 })) as MenuProps["items"];
 
 const ListRooms: FC<Props> = ({ setRoom }) => {
-
   return (
-    <Sider
-      style={{
-        overflow: "auto",
-        height: "100vh",
-        position: "relative",
-        left: 0,
-        top: 0,
-        bottom: 0,
-      }}
-    >
-      <div className="demo-logo-vertical" />
-      <Menu
-        theme="light"
-        mode="inline"
-        defaultSelectedKeys={["4"]}
-        onClick={setRoom}
-        items={items}
-      />
-      <div style={{}}>
+    <div>
+      <ContainerListRooms items={items!} setRoom={setRoom}/>
+      <div>
         <Space direction="vertical" style={{ width: "100%" }}>
           <Button type="primary" block>
             <PlusOutlined />
           </Button>
         </Space>
       </div>
-    </Sider>
+    </div>
   );
 };
 

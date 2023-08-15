@@ -1,8 +1,7 @@
 import React from "react";
 import { Avatar, Card, CardProps, TabPaneProps } from "antd";
 import { title } from "process";
-import { MessageReciver } from "./reciver.style";
-import { ContentMessageReciver } from "./reciver.style";
+import { MessageReciver, ContentMessageReciver } from "./style";
 
 const Reciver = () => {
   return (
