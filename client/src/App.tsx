@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ContainerLayout from "components/layouts/ContainerLayout";
 import LoginLayout from "components/layouts/LoginLayout";
-
+import "index.css"
 const App: React.FC = () => {
   const [userName, setUserName ] = useState<string | null>("");
 
