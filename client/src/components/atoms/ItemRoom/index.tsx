@@ -1,5 +1,6 @@
 import { Menu } from "antd";
 import React, { FC } from "react";
+import { MenuListRoom } from "./style";
 
 interface Props {
     setRoom: (room: any) => void;
@@ -8,10 +9,13 @@ interface Props {
 
 const ItemRooms: FC<Props> = ({items, setRoom}) => {
     return (
-        <Menu
+        <MenuListRoom
           theme="light"
           mode="inline"
-          onClick={setRoom}
+        //   onClick={setRoom}
+          onClick={(key: any ) => {
+            setRoom(items[key.key - 1].label)
+          }}
           items={items}
         />
     );

@@ -4,7 +4,7 @@ import { FC } from "react";
 import { ContainerRooms } from "./style";
 
 interface Props {
-  setRoom: (room: any) => void;
+  setRoom: (room: string) => void;
   items: any[];
 }
 
