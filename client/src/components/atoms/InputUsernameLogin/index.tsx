@@ -17,6 +17,7 @@ const InputUsernameLogin: FC<Props> = ({onChange, onKeyDown, username}) => {
         type="text"
         onKeyDown={onKeyDown}
         value={username}
+        maxLength={20}
       />
     );
 }
