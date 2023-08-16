@@ -35,10 +35,8 @@ const ChatFooter: FC<Props> = ({ contentMessageSend }) => {
   };
 
   const handleChange = (e: any) => {
-    if (e.target.value !== "") {
       setMessageSend(e.target.value);
       setContentInput(e.target.value);
-    }
   };
 
   return (

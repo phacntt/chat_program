@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 export const ContentChat = styled(Content)`
     overflow: auto;
     background: rgb(178 178 178);
-    height: 80vh;
+    height: 822px;
     flex: 1;
     padding: 24px;
-    width: 155vh
+    width: 1540px;
 `;

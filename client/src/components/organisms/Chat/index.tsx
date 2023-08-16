@@ -19,6 +19,10 @@ const ChatContents: FC<Props> = ({ reciver }) => {
     setMessages([...messages])
   }
 
+  useEffect(() => {
+    setMessages([])
+  }, [reciver])
+
   return (
     <React.Fragment>
       <Row>

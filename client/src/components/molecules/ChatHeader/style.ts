@@ -7,6 +7,7 @@ export const HeaderChat = styled(Header)`
     background: white;
     display: flex;
     align-items: center;
+    height: 80px;
 `;
 
 export const AvatarHeader = styled(Avatar)`

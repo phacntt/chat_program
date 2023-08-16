@@ -13,4 +13,7 @@ export const ContentMessageSender = styled.div`
   border-radius: 5px;
   padding: 10px;
   margin: 5px;
+  font-size: 17px;
+  word-break: break-word;
+  line-height: 1.6;
 `;

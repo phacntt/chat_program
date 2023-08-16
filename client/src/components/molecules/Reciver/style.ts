@@ -10,6 +10,6 @@ export const ContentMessageReciver = styled.div`
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 10px;
-  margin: 10px;
   margin: 5px;
+  font-size: 17px
 `;
