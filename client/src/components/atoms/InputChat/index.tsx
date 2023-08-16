@@ -2,8 +2,8 @@ import { Input } from "antd";
 import React, { FC } from "react";
 
 interface Props {
-    handleChange: (e: any) => void;
-    sendMessage: (e: any) => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    sendMessage: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     messageSend: string
 }
 

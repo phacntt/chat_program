@@ -13,7 +13,6 @@ const Login: FC<Props> = ({ handleUsername }) => {
   let [username, setUsername] = useState<string>("");
   const [contentInput, setContentInput] = useState("");
   const [api, contextHolder] = notification.useNotification();
-
   const openNotificationWithIcon = (
     type: NotificationType,
     title: string,
@@ -31,8 +30,7 @@ const Login: FC<Props> = ({ handleUsername }) => {
     setContentInput("");
   };
 
-  const loginEnterButton = (e: any) => {
-    console.log(contentInput.length)
+  const loginEnterButton = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (contentInput.length > 20) {
       openNotificationWithIcon(
         "error",

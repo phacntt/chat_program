@@ -14,7 +14,7 @@ const ChatFooter: FC<Props> = ({ contentMessageSend }) => {
   let [messageSend, setMessageSend] = useState<Message>();
   const [contentInput, setContentInput] = useState("");
 
-  const sendMessage = (e: any) => {
+  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && contentInput !== "" && messageSend?.content !== "") {
       console.log(messageSend);
       const message: Message = { content: contentInput, type: "Sender" };
@@ -24,7 +24,7 @@ const ChatFooter: FC<Props> = ({ contentMessageSend }) => {
     }
   };
 
-  const sendMessageClickButton = (e: any) => {
+  const sendMessageClickButton = (e: React.MouseEvent<HTMLElement>) => {
     console.log(messageSend);
     if (contentInput !== "" && messageSend?.content !== "") {
       const message: Message = { content: contentInput, type: "Sender" };

@@ -2,7 +2,7 @@ import { Button } from "antd";
 import React, { FC } from "react";
 
 interface Props {
-  onClick: (e: any) => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 const ButtonLogin: FC<Props> = ({ onClick }) => {

@@ -2,8 +2,8 @@ import { Input } from "antd";
 import React, { FC } from "react";
 
 interface Props {
-    onChange: (e: any) => void;
-    onKeyDown: (e: any) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     username: string
 }
 

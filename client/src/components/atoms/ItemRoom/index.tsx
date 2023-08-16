@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { MenuListRoom } from "./style";
 
 interface Props {
-    setRoom: (room: any) => void;
+    setRoom: (room: string) => void;
     items: any[]
 }
 
