@@ -11,5 +11,18 @@ export const ContentMessageReciver = styled.div`
   border-radius: 5px;
   padding: 10px;
   margin: 5px;
-  font-size: 17px
+  font-size: 17px;
+`;
+
+export const ContenHeaderReciver = styled.div`
+  font-size: 15px;
+  margin-bottom: 20px;
+  color: gray;
+`;
+
+export const ContenFooterReciver = styled.div`
+  margin-top: 20px;
+  font-size: 15px;
+  text-align: end;
+  color: gray;
 `;

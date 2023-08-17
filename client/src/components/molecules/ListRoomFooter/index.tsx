@@ -2,7 +2,7 @@ import ButtonCreateRoom from "components/atoms/ButtonCreateRoom";
 import ButtonJoinRoom from "components/atoms/ButtonJoinRoom";
 import { GroupButtonAction } from "components/layouts/EmptyLayout/style";
 import statusModal from "helper/statusModal";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import ModalCreateRoom from "../ModalCreateRoom";
 import ModalJoinRoom from "../ModalJoinRoom";
 import StatusModalCreateAndJoinRoom from "helper/statusModal";
@@ -19,6 +19,25 @@ const ListRoomFooter: FC<Props> = ({
   isModalJoinRoomOpen,
   statusModal,
 }) => {
+  const [roomName, setRoomName] = useState<string>("");
+  const [roomId, setRoomId] = useState<string>("");
+
+  const onChangeCreateRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomName(e.target.value);
+  };
+
+  const onChangeJoinRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomId(e.target.value);
+  };
+
+  useEffect(() => {
+    statusModal.roomValue = roomName;
+  }, [roomName]);
+
+  useEffect(() => {
+    statusModal.roomValue = roomId;
+  }, [roomId]);
+
   return (
     <React.Fragment>
       <GroupButtonAction>
@@ -34,10 +53,14 @@ const ListRoomFooter: FC<Props> = ({
       <ModalCreateRoom
         isModalCreateRoomOpen={isModalCreateRoomOpen}
         statusModal={statusModal}
+        onChange={onChangeCreateRoom}
+        roomName={roomName}
       />
       <ModalJoinRoom
         isModalJoinRoomOpen={isModalJoinRoomOpen}
         statusModal={statusModal}
+        onChange={onChangeJoinRoom}
+        roomId={roomId}
       />
     </React.Fragment>
   );

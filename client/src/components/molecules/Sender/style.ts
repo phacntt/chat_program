@@ -17,3 +17,9 @@ export const ContentMessageSender = styled.div`
   word-break: break-word;
   line-height: 1.6;
 `;
+
+export const ContentFooterMessageSender = styled.div`
+  font-size: 15px;
+  color: gray;
+  margin-top: 15px;
+`;

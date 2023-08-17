@@ -1,9 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import { HeaderListRoom } from "./style";
 
-const ListRoomHeader = () => {
+interface Props {
+  username: string;
+}
+
+const ListRoomHeader: FC<Props> = ({ username }) => {
   return (
-    <HeaderListRoom>Hi, {localStorage.getItem("username")}</HeaderListRoom>
+    <HeaderListRoom>Hi, {username}</HeaderListRoom>
   );
 };
 

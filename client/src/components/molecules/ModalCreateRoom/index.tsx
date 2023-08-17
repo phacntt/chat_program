@@ -5,10 +5,16 @@ import React, { FC } from "react";
 interface Props {
   statusModal: StatusModalCreateAndJoinRoom;
   isModalCreateRoomOpen: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  roomName: string;
 }
 
-const ModalCreateRoom: FC<Props> = ({ statusModal,  isModalCreateRoomOpen}) => {
-
+const ModalCreateRoom: FC<Props> = ({
+  statusModal,
+  isModalCreateRoomOpen,
+  onChange,
+  roomName,
+}) => {
   return (
     <Modal
       title="Create Room"
@@ -17,7 +23,11 @@ const ModalCreateRoom: FC<Props> = ({ statusModal,  isModalCreateRoomOpen}) => {
       onCancel={statusModal.handleCancel}
     >
       <div>
-        <Input placeholder="Enter Name Room" />
+        <Input
+          value={roomName}
+          onChange={onChange}
+          placeholder="Enter Name Room"
+        />
       </div>
     </Modal>
   );
