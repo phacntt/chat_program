@@ -1,23 +1,30 @@
 import express from "express";
 import {WebSocket, WebSocketServer} from "ws"
+import http from 'http'
+import { HandleAction } from "./handleAction";
 
-const wss = new WebSocketServer({port: 4000});
+const server = http.createServer((req, res) => {
+  res.end('WebSocket server');
+});
+
+
+const wss = new WebSocket.Server({server});
+
+const listRoom = new Map();
 
 wss.on('connection', (ws) => {
     console.log('A client connected');
   
-    // Event listener for receiving messages from clients
     ws.on('message', (message) => {
-      console.log(`Received: ${message}`);
-  
-      // Sending a response back to the client
-      ws.send(`You said: ${message}`);
+      HandleAction(ws, message, listRoom)
     });
   
-    // Event listener for when the client disconnects
     ws.on('close', () => {
       console.log('A client disconnected');
     });
 });
 
-console.log('WebSocket server is running on port 4000');
+server.listen(4000, () => {
+  console.log('WebSocket server is running on port 4000');
+});
+
