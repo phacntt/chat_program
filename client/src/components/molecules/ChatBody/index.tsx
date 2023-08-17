@@ -3,10 +3,10 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import Reciver from "../Reciver";
 import Sender from "../Sender";
 import { ContentChat } from "./style";
-import { Message } from "types/message.types";
+import { MessageChat } from "types/messageAction.types";
 
 interface Props {
-  messages: Message[];
+  messages: MessageChat[];
 }
 
 const ChatBody: FC<Props> = ({ messages }) => {
@@ -14,26 +14,29 @@ const ChatBody: FC<Props> = ({ messages }) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  console.log(messages);
+
   useEffect(() => {
-    scrollToBottom()
+    scrollToBottom();
   }, [messages]);
 
   return (
     <ContentChat>
       {messages.map((message) => {
-        return message.type === "Reciver" ? (
+        return message.author !== localStorage.getItem("username") ? (
           <React.Fragment>
-            <Reciver content={message.content} />
+            <Reciver content={message.content} name={message.author} timeSend={message.time}/>
             <br />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Sender content={message.content} />
+            <Sender content={message.content} timeSend={message.time}/>
             <br />
           </React.Fragment>
         );
       })}
-      <div ref={messagesEndRef}/>
+      <div ref={messagesEndRef} />
     </ContentChat>
   );
 };

@@ -1,24 +1,66 @@
 import { Menu } from "antd";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MenuListRoom } from "./style";
+import { Room } from "types/room.type";
+import { MenuItemType } from "antd/es/menu/hooks/useItems";
+import { ItemType } from "antd/es/breadcrumb/Breadcrumb";
+import {
+  MessageAction,
+  MessageListMessagesByRoomId,
+} from "types/messageAction.types";
+import { TypeMessage } from "types/enum";
 
 interface Props {
-    setRoom: (room: string) => void;
-    items: any[]
+  items: any[];
+  roomId: string;
+  setRoom: (room: string) => void;
+  setRoomId: (roomId: string) => void;
+  sendMessage: (message: any) => void;
 }
 
-const ItemRooms: FC<Props> = ({items, setRoom}) => {
-    return (
-        <MenuListRoom
-          theme="light"
-          mode="inline"
-        //   onClick={setRoom}
-          onClick={(key: any ) => {
-            setRoom(items[key.key - 1].label)
-          }}
-          items={items}
-        />
-    );
-}
+const ItemRooms: FC<Props> = ({
+  items,
+  roomId,
+  setRoom,
+  setRoomId,
+  sendMessage,
+}) => {
+  const [keyItem, setKeyItem] = useState<string[]>([])
+
+  const sendMessageRoomIdToServer = (roomId: string) => {
+    const messageListMessageByRoomId: MessageListMessagesByRoomId = {
+      roomId: roomId,
+    };
+
+    const message: MessageAction = {
+      action: TypeMessage.ListMessages,
+      data: messageListMessageByRoomId,
+    };
+
+    sendMessage(JSON.stringify(message));
+  };
+
+  useEffect(() => {
+    setKeyItem([roomId])
+  }, [roomId])
+
+  return (
+    <MenuListRoom
+      theme="light"
+      mode="inline"
+      onClick={(key: any) => {
+        for (let i = 0; i < items.length; i++) {
+          if (key.key === items[i].key) {
+            setRoom(items[i].label);
+            setRoomId(key.key);
+            sendMessageRoomIdToServer(key.key)
+          }
+        }
+      }}
+      items={items}
+      defaultOpenKeys={[`'${roomId}'`]}
+    />
+  );
+};
 
 export default ItemRooms;
