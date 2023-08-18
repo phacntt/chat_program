@@ -1,18 +1,25 @@
-import { Col, Row, message } from "antd";
-import { kMaxLength } from "buffer";
+import { Col, Row } from "antd";
+import { ButtonLeaveChat } from "components/atoms/ButtonLeaveChat";
 import ChatBody from "components/molecules/ChatBody";
 import ChatFooter from "components/molecules/ChatFooter";
 import ChatHeader from "components/molecules/ChatHeader";
 import React, { FC, useEffect, useState } from "react";
 import { TypeMessage } from "types/enum";
-import { MessageAction, MessageChat, MessageListMessagesByRoomId } from "types/messageAction.types";
+import {
+  MessageAction,
+  MessageChat,
+  MessageChatByRoom,
+  MessageListMessagesByRoomId,
+} from "types/messageAction.types";
+import { ButtonLeaveChatRoom } from "./style";
 
 interface Props {
   roomName: string;
-  messages: any[];
+  messages: MessageChat[];
   author: string;
   roomId: string;
   sendMessage: (message: any) => void;
+  setRoomName: (roomName: string) => void;
 }
 
 const ChatContents: FC<Props> = ({
@@ -21,6 +28,7 @@ const ChatContents: FC<Props> = ({
   author,
   roomId,
   sendMessage,
+  setRoomName,
 }) => {
   const [message, setMessage] = useState<MessageChat>();
 
@@ -28,24 +36,21 @@ const ChatContents: FC<Props> = ({
     setMessage(value);
   };
 
-  useEffect(() => {
-    const messageListMessageByRoomId: MessageListMessagesByRoomId = {
-      roomId: roomId
-    };
-
-    const message: MessageAction = {
-      action: TypeMessage.ListMessages,
-      data: messageListMessageByRoomId,
-    };
-
-    sendMessage(JSON.stringify(message));
-  }, []);
-
   return (
     <React.Fragment>
       <Row>
-        <Col>
-          <ChatHeader reciver={roomName} roomId={roomId}/>
+        <Col span={20}>
+          <ChatHeader reciver={roomName} roomId={roomId} />
+        </Col>
+        <Col span={4}>
+          <ButtonLeaveChatRoom>
+            <ButtonLeaveChat
+              sendMessage={sendMessage}
+              setRoomName={setRoomName}
+              roomId={roomId}
+              username={author}
+            />
+          </ButtonLeaveChatRoom>
         </Col>
       </Row>
       <Row>
