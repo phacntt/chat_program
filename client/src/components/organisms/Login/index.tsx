@@ -4,6 +4,7 @@ import InputUsernameLogin from "components/atoms/InputUsernameLogin";
 import ButtonLogin from "components/atoms/ButtonLogin";
 import { Modal, notification } from "antd";
 import { NotificationType } from "types/notification.type";
+import { VariableLocal } from "constant";
 
 interface Props {
   handleUsername: (username: string | null) => void;
@@ -26,7 +27,7 @@ const Login: FC<Props> = ({ handleUsername }) => {
 
   const handleSaveusernameAndResetInput = (username: string) => {
     handleUsername(username);
-    localStorage.setItem("username", username);
+    localStorage.setItem(VariableLocal.username, username);
     setContentInput("");
   };
 

@@ -9,6 +9,7 @@ import {
   MessageListMessagesByRoomId,
 } from "types/messageAction.types";
 import { TypeMessage } from "types/enum";
+import { VariableLocal } from "constant";
 
 interface Props {
   items: any[];
@@ -54,6 +55,7 @@ const ItemRooms: FC<Props> = ({
             setRoom(items[i].label);
             setRoomId(key.key);
             sendMessageRoomIdToServer(key.key)
+            localStorage.setItem(VariableLocal.currentRoom, key.key)
           }
         }
       }}
