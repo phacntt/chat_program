@@ -1,9 +1,9 @@
-import { Content } from "antd/es/layout/layout";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import Reciver from "../Reciver";
 import Sender from "../Sender";
 import { ContentChat } from "./style";
 import { MessageChat } from "types/messageAction.types";
+import { VariableLocal } from "constant";
 
 interface Props {
   messages: MessageChat[];
@@ -15,8 +15,6 @@ const ChatBody: FC<Props> = ({ messages }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  console.log(messages);
-
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -24,18 +22,24 @@ const ChatBody: FC<Props> = ({ messages }) => {
   return (
     <ContentChat>
       {messages.map((message) => {
-        return message.author !== localStorage.getItem("username") ? (
+        return message.author !== localStorage.getItem(VariableLocal.username) ? (
           <React.Fragment>
-            <Reciver content={message.content} name={message.author} timeSend={message.time}/>
+            <Reciver content={message.content} name={message.author} timeSend={message.time!}/>
             <br />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Sender content={message.content} timeSend={message.time}/>
+            <Sender content={message.content} timeSend={message.time!}/>
             <br />
           </React.Fragment>
         );
       })}
+      {/* <Wrap>
+        <Links>
+          <Dot>ABC</Dot>
+        </Links>
+      </Wrap> */}
+
       <div ref={messagesEndRef} />
     </ContentChat>
   );

@@ -16,13 +16,21 @@ export const ContentMessageReciver = styled.div`
 
 export const ContenHeaderReciver = styled.div`
   font-size: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: gray;
 `;
 
 export const ContenFooterReciver = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 15px;
   text-align: end;
   color: gray;
+`;
+
+export const ContentBodyReciver = styled.div`
+  border-radius: 5px;
+  margin: 5px;
+  font-size: 17px;
+  word-break: break-word;
+  line-height: 1.6;
 `;

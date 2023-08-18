@@ -22,15 +22,12 @@ const ChatFooter: FC<Props> = ({
 }) => {
   const [messageSend, setMessageSend] = useState<MessageChat>();
   const [contentInput, setContentInput] = useState("");
-  
+
   const handleSendMessageToServer = () => {
-    const timeSendMessage = new Date();
-    
     const messageSend: MessageChat = {
       author: author,
       content: contentInput,
       roomId: roomId,
-      time: timeSendMessage.getHours() + " : " + timeSendMessage.getMinutes()
     };
 
     const message: MessageAction = {
@@ -47,14 +44,11 @@ const ChatFooter: FC<Props> = ({
       contentInput !== "" &&
       messageSend?.content !== ""
     ) {
-      console.log(messageSend);
-      const timeSendMessage = new Date();
 
       const message: MessageChat = {
         content: contentInput,
         author,
         roomId: roomId,
-        time: timeSendMessage.getHours() + " : " + timeSendMessage.getMinutes(),
       };
       handleSendMessageToServer();
       contentMessageSend(message!);
@@ -64,15 +58,12 @@ const ChatFooter: FC<Props> = ({
   };
 
   const sendMessageClickButton = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(messageSend);
     if (contentInput !== "" && messageSend?.content !== "") {
-      const timeSendMessage = new Date();
 
       const message: MessageChat = {
         content: contentInput,
         author,
         roomId: roomId,
-        time: timeSendMessage.getHours() + " : " + timeSendMessage.getMinutes(),
       };
       handleSendMessageToServer();
       setContentInput("");

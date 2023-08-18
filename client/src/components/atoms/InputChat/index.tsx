@@ -1,5 +1,5 @@
-import { Input } from "antd";
 import React, { FC } from "react";
+import { ChatInput } from "./style";
 
 interface Props {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,9 +9,9 @@ interface Props {
 
 const InputChat: FC<Props> = ({handleChange, messageSend, sendMessage}) => {
     return (
-        <Input
+        <ChatInput
         size="large"
-        placeholder="input search text"
+        placeholder="Enter Text"
         allowClear
         onChange={handleChange}
         type="text"

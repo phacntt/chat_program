@@ -6,6 +6,7 @@ import {
   ContentMessageReciver,
   ContenHeaderReciver,
   ContenFooterReciver,
+  ContentBodyReciver,
 } from "./style";
 
 interface Props {
@@ -27,7 +28,7 @@ const Reciver: FC<Props> = ({ content, name, timeSend }) => {
         <div>
           <ContentMessageReciver>
             <ContenHeaderReciver>{name}</ContenHeaderReciver>
-            <div>{content}</div>
+            <ContentBodyReciver>{content}</ContentBodyReciver>
             <ContenFooterReciver>{timeSend}</ContenFooterReciver>
           </ContentMessageReciver>
         </div>

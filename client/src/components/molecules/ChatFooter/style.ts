@@ -5,5 +5,4 @@ export const ContainerSendMessage = styled.div`
     align-items: center;
     width: 155vh;
     max-width: 200vh;
-    margin-top: 20px;
 `
