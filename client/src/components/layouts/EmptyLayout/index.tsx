@@ -23,7 +23,6 @@ const EmptyLayout: FC<Props> = ({ sendMessage, username }) => {
   const [roomId, setRoomId] = useState<string>("");
 
   const onChangeCreateRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(roomName)
     setRoomName(e.target.value);
   };
 

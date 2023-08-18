@@ -42,7 +42,6 @@ class StatusModalCreateAndJoinRoom {
   };
 
   public handleOk = () => {
-    console.log("OKOOKOKKOKOK")
     if (this.roomValue) {
       if (this.typeButton === StatusButtonEmptyLayout.Create) {
         const messageCreateRoom: MessageCreateRoom = {
@@ -60,6 +59,7 @@ class StatusModalCreateAndJoinRoom {
       } else {
         const messageJoinRoom: MessageJoinRoom = {
           roomId: this.roomValue,
+          author: this.username,
         };
 
         const message: MessageAction = {
