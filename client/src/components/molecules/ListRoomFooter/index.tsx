@@ -1,12 +1,10 @@
-import ButtonCreateRoom from "components/atoms/ButtonCreateRoom";
-import ButtonJoinRoom from "components/atoms/ButtonJoinRoom";
-import { GroupButtonAction } from "components/layouts/EmptyLayout/style";
-import statusModal from "helper/statusModal";
 import React, { FC, useEffect, useState } from "react";
 import ModalCreateRoom from "../ModalCreateRoom";
 import ModalJoinRoom from "../ModalJoinRoom";
 import StatusModalCreateAndJoinRoom from "helper/statusModal";
-import { StatusButtonEmptyLayout } from "types/statusButtonEmptyLayout.type";
+import { GroupButtonAtListRoom } from "./style";
+import ButtonCreateRoomAtListRoom from "components/atoms/ButtonCreateRoomAtListRoom";
+import ButtonJoinRoomAtListRoom from "components/atoms/ButtonJoinRoomAtListRoom";
 
 interface Props {
   isModalCreateRoomOpen: boolean;
@@ -40,16 +38,16 @@ const ListRoomFooter: FC<Props> = ({
 
   return (
     <React.Fragment>
-      <GroupButtonAction>
-        <ButtonCreateRoom
+      <GroupButtonAtListRoom>
+        <ButtonCreateRoomAtListRoom
           onClick={(typeButton) => statusModal.showModal(typeButton)}
           typeButtonClick={statusModal.typeButton}
         />
-        <ButtonJoinRoom
+        <ButtonJoinRoomAtListRoom
           onClick={(typeButton) => statusModal.showModal(typeButton)}
           typeButtonClick={statusModal.typeButton}
         />
-      </GroupButtonAction>
+      </GroupButtonAtListRoom>
       <ModalCreateRoom
         isModalCreateRoomOpen={isModalCreateRoomOpen}
         statusModal={statusModal}
