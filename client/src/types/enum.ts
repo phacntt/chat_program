@@ -3,5 +3,6 @@ export enum TypeMessage {
     JoinRoom = "join-room",
     ListRooms = "list-rooms",
     SendMessage = "send-message",
-    ListMessages = "list-messages"
+    ListMessages = "list-messages",
+    LeaveRoom = "leave-room",
 };

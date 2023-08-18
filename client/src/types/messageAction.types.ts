@@ -1,35 +1,52 @@
 import { TypeMessage } from "./enum";
 
 export type MessageAction = {
-    action: TypeMessage,
-    data: MessageChat | MessageCreateRoom | MessageJoinRoom | MessageListRoomsByAuthor | MessageListMessagesByRoomId
-}
+  action: TypeMessage;
+  data:
+    | MessageChat
+    | MessageCreateRoom
+    | MessageJoinRoom
+    | MessageListRoomsByAuthor
+    | MessageListMessagesByRoomId
+    | MessageLeaveRoom;
+};
 
 export type MessageReceive = {
-    action: TypeMessage,
-    data: any
-}
+  action: TypeMessage;
+  data: any;
+};
 
 export type MessageChat = {
-    roomId: string,
-    author: string,
-    content: string,
-    time: string,
-}
+  roomId: string;
+  author: string;
+  content: string;
+  time?: string;
+};
+
+export type MessageChatByRoom = {
+  roomId: string;
+  messages: MessageChat[];
+};
 
 export type MessageCreateRoom = {
-    author: string;
-    roomName: string;
-}
+  author: string;
+  roomName: string;
+};
+
+export type MessageLeaveRoom = {
+  author: string;
+  roomId: string;
+};
 
 export type MessageJoinRoom = {
-    roomId: string,
-}
+  author: string;
+  roomId: string;
+};
 
 export type MessageListRoomsByAuthor = {
-    author: string,
-}
+  author: string;
+};
 
 export type MessageListMessagesByRoomId = {
-    roomId: string,
-}
+  roomId: string;
+};
