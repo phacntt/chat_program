@@ -6,8 +6,12 @@ import ListRooms from "components/organisms/ListRooms";
 import { ColEmpty } from "./style";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { Room } from "types/room.type";
-import { MessageChat, MessageReceive } from "types/messageAction.types";
+import {
+  MessageChat,
+  MessageReceive,
+} from "types/messageAction.types";
 import { TypeMessage } from "types/enum";
+import { VariableLocal } from "constant";
 
 interface Props {
   username: string;
@@ -20,44 +24,42 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
   const [statusSelectRoom, setStatusSelectRoom] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [messages, setMessages] = useState<MessageChat[]>([]);
-  const { sendMessage, lastMessage } = useWebSocket("ws://localhost:4000"); // Replace with your server URL
+  const { sendMessage, lastMessage } = useWebSocket("ws://localhost:4000");
 
   const handleMessage = (event: any) => {
     const data: MessageReceive = JSON.parse(event.data);
-    console.log("CO VO DAY KHONG");
-
+    const currentRoom = localStorage.getItem(VariableLocal.currentRoom);
     switch (data.action) {
       case TypeMessage.ListRooms:
-        console.log(data.data);
         setRooms(data.data);
         break;
       case TypeMessage.CreateRoom:
         setRooms(data.data);
         break;
       case TypeMessage.JoinRoom:
-        console.log("MESSAGE: ", data.data)
         setRooms(data.data);
         break;
       case TypeMessage.SendMessage:
-        console.log("ACTION");
-        messages.push(data.data)
-        setMessages(data.data);
+        if (data.data.roomId === currentRoom) {
+          messages.push(data.data);
+          setMessages(data.data.messages);
+        }
         break;
       case TypeMessage.ListMessages:
-        console.log("RESET")
         setMessages(data.data);
+        break;
+      case TypeMessage.LeaveRoom:
+        console.log("ROOM NE: ", data.data.rooms)
+        setRooms(data.data.rooms);
         break;
       default:
         break;
     }
-
-    console.log(data);
   };
 
   // Listen for changes in the lastMessage to handle received messages
   useEffect(() => {
     if (lastMessage !== null) {
-      console.log("LAM ON VO DAY CAI")
       handleMessage(lastMessage);
     }
   }, [lastMessage]);
@@ -91,10 +93,11 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
         <Col span={20}>
           <ChatContents
             roomName={roomName}
-            messages={messages}
+            messages={messages!}
             author={username!}
             roomId={roomId}
             sendMessage={sendMessage}
+            setRoomName={setRoomName}
           />
         </Col>
       ) : (
