@@ -1,4 +1,4 @@
-import { RawData, WebSocket } from "ws";
+import WebSocket, { RawData } from "ws";
 import {
   MessageChat,
   MessageCreateRoom,
@@ -7,13 +7,16 @@ import {
   MessageListRoomsByAuthor,
   MessageAction,
   MessageReturn,
+  MessageLeaveRoom,
 } from "./types/messageAction.type";
 import { ActionOfMessage } from "./types/enum";
 import { v4 as uuidv4 } from "uuid";
 import { Room } from "./types/room.type";
 import { User } from "./types/user.type";
 import { Message } from "./types/message.type";
+
 export const HandleAction = (
+  wss: WebSocket.Server,
   ws: WebSocket,
   message: RawData,
   listRoom: Map<string, any>
@@ -32,17 +35,20 @@ export const HandleAction = (
       handleActionListRoom(ws, listRoom, messageAction);
       break;
     case ActionOfMessage.SendMessage:
-      handleActionSendMessage(ws, listRoom, messageAction);
+      handleActionSendMessage(wss, ws, listRoom, messageAction);
       break;
     case ActionOfMessage.ListMessages:
       handleActionListMessageByRoomId(ws, listRoom, messageAction);
+      break;
+    case ActionOfMessage.LeaveRoom:
+      handleActionLeaveRoom(wss, ws, listRoom, messageAction);
       break;
     default:
       break;
   }
 };
 
-const handleActionCreateRoom = (
+export const handleActionCreateRoom = (
   ws: WebSocket,
   listRoom: Map<string, Room>,
   messageAction: MessageAction
@@ -69,7 +75,7 @@ const handleActionCreateRoom = (
 
   const mapRoomToArrayRoom: Room[] = [];
 
-  const listRoomReturn: Room[] = []
+  const listRoomReturn: Room[] = [];
 
   listRoom.forEach((room: Room) => {
     mapRoomToArrayRoom.push(room);
@@ -89,7 +95,7 @@ const handleActionCreateRoom = (
   ws.send(JSON.stringify(messageSend));
 };
 
-const handleActionJoinRoom = (
+export const handleActionJoinRoom = (
   ws: WebSocket,
   listRoom: Map<string, Room>,
   messageAction: MessageAction
@@ -117,7 +123,7 @@ const handleActionJoinRoom = (
   });
 
   const listRoomsUserJoin: Room[] = [];
-  
+
   for (let room of arrayRooms) {
     room.users.find((user: User) => {
       if (user.username === messageData.author) {
@@ -134,7 +140,7 @@ const handleActionJoinRoom = (
   ws.send(JSON.stringify(messageSend));
 };
 
-const handleActionListRoom = (
+export const handleActionListRoom = (
   ws: WebSocket,
   listRoom: Map<string, Room>,
   messageAction: MessageAction
@@ -152,7 +158,6 @@ const handleActionListRoom = (
   for (let room of arrayRooms) {
     room.users.find((user: User) => {
       if (user.username === messageData.author) {
-        console.log("GIONG KHONG Z");
         roomsUserHasJoin.push(room);
       }
     });
@@ -166,7 +171,8 @@ const handleActionListRoom = (
   ws.send(JSON.stringify(messageSend));
 };
 
-const handleActionSendMessage = (
+export const handleActionSendMessage = (
+  wss: WebSocket.Server,
   ws: WebSocket,
   listRoom: Map<string, Room>,
   messageAction: MessageAction
@@ -185,20 +191,36 @@ const handleActionSendMessage = (
   const message: Message = {
     author: messageData.author,
     content: messageData.content,
-    time: timeSendMessage.getHours() + " : " + timeSendMessage.getMinutes()
+    time:
+      (timeSendMessage.getHours() < 10
+        ? "0" + timeSendMessage.getHours()
+        : timeSendMessage.getHours()) +
+      ":" +
+      (timeSendMessage.getMinutes() < 10
+        ? "0" + timeSendMessage.getMinutes()
+        : timeSendMessage.getMinutes()),
   };
 
   room.messages.push(message);
 
-  const messageSend: MessageReturn = {
-    action: ActionOfMessage.SendMessage,
-    data: room.messages,
-  };
+  wss.clients.forEach(function (client: WebSocket) {
+    if (client.readyState === WebSocket.OPEN) {
+      const messageSend: MessageReturn = {
+        action: ActionOfMessage.SendMessage,
+        data: {
+          roomId: messageData.roomId,
+          messages: room.messages,
+        },
+      };
 
-  ws.send(JSON.stringify(messageSend));
+      room.users.forEach((_) => {
+        client.send(JSON.stringify(messageSend));
+      });
+    }
+  });
 };
 
-const handleActionListMessageByRoomId = (
+export const handleActionListMessageByRoomId = (
   ws: WebSocket,
   listRoom: Map<string, Room>,
   messageAction: MessageAction
@@ -217,6 +239,72 @@ const handleActionListMessageByRoomId = (
   const messageSend: MessageReturn = {
     action: ActionOfMessage.ListMessages,
     data: messages,
+  };
+
+  ws.send(JSON.stringify(messageSend));
+};
+
+export const handleActionLeaveRoom = (
+  wss: WebSocket.Server,
+  ws: WebSocket,
+  listRoom: Map<string, Room>,
+  messageAction: MessageAction
+) => {
+  const messageData = messageAction.data as MessageLeaveRoom;
+
+  const room = listRoom.get(messageData.roomId);
+
+  if (!room) {
+    ws.send(JSON.stringify({ error: true, data: "Not found Room" }));
+    return;
+  }
+
+  room.users = room.users.filter(
+    (user: User) => user.username !== messageData.author
+  );
+
+  const listRoomUserHasJoin: Room[] = [];
+
+  let arrayRooms: any[] = [];
+
+  listRoom.forEach((room: Room, key: string) => {
+    arrayRooms.push(room);
+  });
+
+  for (let room of arrayRooms) {
+    room.users.find((user: User) => {
+      if (user.username === messageData.author) {
+        listRoomUserHasJoin.push(room);
+      }
+    });
+  }
+
+  console.log(room.users);
+
+  // wss.clients.forEach(function (client: WebSocket) {
+  //   if (client.readyState === WebSocket.OPEN) {
+  //     const messageSend: MessageReturn = {
+  //       action: ActionOfMessage.LeaveRoom,
+  //       data: {
+  //         username: messageData.author,
+  //         roomId: messageData.roomId,
+  //         rooms: listRoomUserHasJoin,
+  //       }
+  //     };
+
+  //     room.users.forEach((_) => {
+  //       client.send(JSON.stringify(messageSend));
+  //     });
+  //   }
+  // });
+
+  const messageSend: MessageReturn = {
+    action: ActionOfMessage.LeaveRoom,
+    data: {
+      username: messageData.author,
+      roomId: messageData.roomId,
+      rooms: listRoomUserHasJoin,
+    },
   };
 
   ws.send(JSON.stringify(messageSend));

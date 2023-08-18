@@ -27,6 +27,10 @@ export type MessageJoinRoom = {
     author: string,
 }
 
+export type MessageLeaveRoom = {
+    roomId: string,
+    author: string,
+}
 
 export type MessageListRoomsByAuthor = {
     author: string,
