@@ -90,7 +90,7 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
       </Col>
 
       {statusSelectRoom ? (
-        <Col span={20}>
+        <Col span={20} style={{borderLeft: "1px solid"}}>
           <ChatContents
             roomName={roomName}
             messages={messages!}

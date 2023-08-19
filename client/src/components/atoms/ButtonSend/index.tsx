@@ -3,7 +3,7 @@ import { Button } from "antd";
 import React, { FC, useState } from "react";
 
 interface Props {
-  sendMessageClickButton: (e: React.MouseEvent<HTMLElement>) => void;
+  sendMessageClickButton: () => Promise<void>;
 }
 
 const ButtonSend: FC<Props> = ({ sendMessageClickButton }) => {

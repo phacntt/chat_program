@@ -4,10 +4,10 @@ import { styled } from "styled-components";
 export const ContentChat = styled(Content)`
   overflow: auto;
   background: rgb(178 178 178);
-  height: 843px;
+  height: 770px;
   flex: 1;
   padding: 24px;
-  width: 1540px;
+  width: 1539px;
 `;
 
 export const Wrap = styled.div`

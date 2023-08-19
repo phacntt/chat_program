@@ -1,17 +1,12 @@
 import { Col, Row } from "antd";
 import { ButtonLeaveChat } from "components/atoms/ButtonLeaveChat";
 import ChatBody from "components/molecules/ChatBody";
-import ChatFooter from "components/molecules/ChatFooter";
 import ChatHeader from "components/molecules/ChatHeader";
 import React, { FC, useEffect, useState } from "react";
-import { TypeMessage } from "types/enum";
-import {
-  MessageAction,
-  MessageChat,
-  MessageChatByRoom,
-  MessageListMessagesByRoomId,
-} from "types/messageAction.types";
+import { MessageChat } from "types/messageAction.types";
 import { ButtonLeaveChatRoom } from "./style";
+import UploadFileArea from "components/molecules/UploadFileArea";
+import ChatFooter from "components/molecules/ChatFooter";
 
 interface Props {
   roomName: string;
@@ -22,6 +17,7 @@ interface Props {
   setRoomName: (roomName: string) => void;
 }
 
+
 const ChatContents: FC<Props> = ({
   roomName,
   messages,
@@ -30,10 +26,33 @@ const ChatContents: FC<Props> = ({
   sendMessage,
   setRoomName,
 }) => {
-  const [message, setMessage] = useState<MessageChat>();
+  const [messageChat, setMessageChat] = useState<MessageChat>();
+  const [files, setFiles] = useState<File[]>([]);
 
   const messageFromInput = (value: MessageChat) => {
-    setMessage(value);
+    setMessageChat(value);
+  };
+
+  const uploadFiles = async (files: File[]) => {
+    const uploadPromises = files.map(async (file) => {
+      const formData = new FormData();
+      formData.append("files", file);
+
+      const response = await fetch("http://localhost:4000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      return data;
+    });
+
+    const results = await Promise.all(uploadPromises);
+    return results;
+  }
+
+  const handleFileChange = (info: any) => {
+    setFiles(info.fileList.map((file: any) => file.originFileObj));
   };
 
   return (
@@ -59,13 +78,27 @@ const ChatContents: FC<Props> = ({
         </Col>
       </Row>
       <Row>
+        <Col span={24}>
+          <UploadFileArea handleFileChange={handleFileChange} files={files} setFiles={setFiles}/>
+        </Col>
         <Col>
-          <ChatFooter
-            contentMessageSend={messageFromInput}
-            sendMessage={sendMessage}
-            author={author}
-            roomId={roomId}
-          />
+          {files.length != 0 ? (
+            <ChatFooter
+              contentMessageSend={messageFromInput}
+              sendMessage={sendMessage}
+              author={author}
+              roomId={roomId}
+              files={files}
+              uploadFiles={uploadFiles}
+            />
+          ) : (
+            <ChatFooter
+              contentMessageSend={messageFromInput}
+              sendMessage={sendMessage}
+              author={author}
+              roomId={roomId}
+            />
+          )}
         </Col>
       </Row>
     </React.Fragment>

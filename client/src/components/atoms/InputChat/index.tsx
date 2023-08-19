@@ -3,7 +3,7 @@ import { ChatInput } from "./style";
 
 interface Props {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    sendMessage: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    sendMessage: (e: React.KeyboardEvent<HTMLInputElement>) => Promise<void>;
     messageSend: string
 }
 

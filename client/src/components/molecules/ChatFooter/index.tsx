@@ -5,13 +5,15 @@ import React, { FC, useEffect } from "react";
 import { useState } from "react";
 import { ContainerSendMessage } from "./style";
 import { MessageAction, MessageChat } from "types/messageAction.types";
-import { TypeMessage } from "types/enum";
+import { TypeMessage, TypeOfMessage } from "types/enum";
 
 interface Props {
   contentMessageSend: (message: MessageChat) => void;
   sendMessage: (message: any) => void;
   author: string;
   roomId: string;
+  files?: File[];
+  uploadFiles?: (files: File[]) => Promise<any[]>;
 }
 
 const ChatFooter: FC<Props> = ({
@@ -19,56 +21,77 @@ const ChatFooter: FC<Props> = ({
   sendMessage,
   author,
   roomId,
+  files,
+  uploadFiles,
 }) => {
   const [messageSend, setMessageSend] = useState<MessageChat>();
   const [contentInput, setContentInput] = useState("");
 
-  const handleSendMessageToServer = () => {
-    const messageSend: MessageChat = {
-      author: author,
-      content: contentInput,
-      roomId: roomId,
-    };
+  const handleSendMessageToServer = async (type: TypeOfMessage) => {
+    if (type === TypeOfMessage.UploadFile && files) {
+      const uploadResults = await uploadFiles!(files);
 
-    const message: MessageAction = {
-      action: TypeMessage.SendMessage,
-      data: messageSend,
-    };
+      uploadResults.forEach((result) => {
+        console.log(result);
+        if (result.status) {
+          result.data.forEach((file: any) => {
+            const messageSend: MessageChat = {
+              author: author,
+              content: file.path,
+              roomId: roomId,
+              typeOfMessage: TypeOfMessage.UploadFile,
+              extendsion: file.mimetype.slice(0, file.mimetype.indexOf("/")),
+              fileSize: file.size,
+            };
 
-    sendMessage(JSON.stringify(message));
-  };
+            const message: MessageAction = {
+              action: TypeMessage.SendMessage,
+              data: messageSend,
+            };
 
-  const sendMessages = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      e.key === "Enter" &&
-      contentInput !== "" &&
-      messageSend?.content !== ""
-    ) {
-
-      const message: MessageChat = {
+            sendMessage(JSON.stringify(message));
+          });
+        }
+      });
+    } else {
+      const messageSend: MessageChat = {
+        author: author,
         content: contentInput,
-        author,
         roomId: roomId,
+        typeOfMessage: TypeOfMessage.Text,
       };
-      handleSendMessageToServer();
-      contentMessageSend(message!);
-      setContentInput("");
-      setMessageSend(message);
+
+      const message: MessageAction = {
+        action: TypeMessage.SendMessage,
+        data: messageSend,
+      };
+
+      sendMessage(JSON.stringify(message));
     }
   };
 
-  const sendMessageClickButton = (e: React.MouseEvent<HTMLElement>) => {
-    if (contentInput !== "" && messageSend?.content !== "") {
+  const sendMessages = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && messageSend?.content !== "") {
+      if (contentInput === "") {
+        if (files && files.length !== 0)
+          await handleSendMessageToServer(TypeOfMessage.UploadFile);
+      } else {
+        await handleSendMessageToServer(TypeOfMessage.Text);
+        setContentInput("");
+      }
+    }
+  };
 
-      const message: MessageChat = {
-        content: contentInput,
-        author,
-        roomId: roomId,
-      };
-      handleSendMessageToServer();
-      setContentInput("");
-      contentMessageSend(message!);
-      setMessageSend(message);
+  const sendMessageClickButton = async () => {
+    if (messageSend?.content !== "") {
+      if (contentInput === "") {
+        if (files && files.length !== 0) {
+          await handleSendMessageToServer(TypeOfMessage.UploadFile);
+        }
+      } else {
+        await handleSendMessageToServer(TypeOfMessage.Text);
+        setContentInput("");
+      }
     }
   };
 

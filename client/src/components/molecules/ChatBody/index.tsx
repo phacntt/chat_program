@@ -24,22 +24,16 @@ const ChatBody: FC<Props> = ({ messages }) => {
       {messages.map((message) => {
         return message.author !== localStorage.getItem(VariableLocal.username) ? (
           <React.Fragment>
-            <Reciver content={message.content} name={message.author} timeSend={message.time!}/>
+            <Reciver message={message}/>
             <br />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Sender content={message.content} timeSend={message.time!}/>
+            <Sender message={message}/>
             <br />
           </React.Fragment>
         );
       })}
-      {/* <Wrap>
-        <Links>
-          <Dot>ABC</Dot>
-        </Links>
-      </Wrap> */}
-
       <div ref={messagesEndRef} />
     </ContentChat>
   );

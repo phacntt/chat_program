@@ -6,20 +6,36 @@ import {
   ContentMessageSender,
   ContentFooterMessageSender,
 } from "./style";
+import { MessageChat } from "types/messageAction.types";
+import { TypeOfMessage } from "types/enum";
+import FileImage from "components/atoms/FileImage";
+import FileAnother from "components/atoms/FileAnother";
 
 interface Props {
-  content: string;
-  timeSend: string;
+  message: MessageChat;
 }
 
-const Sender: FC<Props> = ({ content, timeSend }) => {
+const Sender: FC<Props> = ({ message }) => {
+  console.log(message);
   return (
     <React.Fragment>
       <MessageSender>
         {/* <ContentMessageSender>{content}</ContentMessageSender> */}
         <ContentMessageSender>
-          {content}
-          <ContentFooterMessageSender>{timeSend}</ContentFooterMessageSender>
+          {message.typeOfMessage === TypeOfMessage.UploadFile ? (
+            message.extendsion === "image" ? (
+              <FileImage
+                urlImage={`http://localhost:4000/${message.content}`}
+              />
+            ) : (
+              <FileAnother fileName={message.content} fileSize={message.fileSize!}/>
+            )
+          ) : (
+            message.content
+          )}
+          <ContentFooterMessageSender>
+            {message.time}
+          </ContentFooterMessageSender>
         </ContentMessageSender>
       </MessageSender>
     </React.Fragment>
