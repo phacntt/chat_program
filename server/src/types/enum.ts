@@ -1,6 +1,6 @@
 export enum TypeOfMessage {
     Text = "text",
-    File = "file"
+    UploadFile = "upload-file",
 };
 
 export enum ActionOfMessage {
@@ -10,4 +10,5 @@ export enum ActionOfMessage {
     SendMessage = "send-message",
     ListMessages = "list-messages",
     LeaveRoom = "leave-room",
+    UploadFile = "upload-file",
 };

@@ -1,4 +1,4 @@
-import { ActionOfMessage } from "./enum"
+import { ActionOfMessage, TypeOfMessage } from "./enum"
 
 export type MessageAction = {
     action: ActionOfMessage,
@@ -11,10 +11,13 @@ export type MessageReturn = {
 }
 
 export type MessageChat = {
+    typeOfMessage: TypeOfMessage,
     roomId: string,
     content: string,
     author: string,
     time: string,
+    extendsion?: string,
+    fileSize?: number;
 }
 
 export type MessageCreateRoom = {

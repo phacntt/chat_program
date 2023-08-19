@@ -9,11 +9,13 @@ import {
   MessageReturn,
   MessageLeaveRoom,
 } from "./types/messageAction.type";
-import { ActionOfMessage } from "./types/enum";
+import { ActionOfMessage, TypeOfMessage } from "./types/enum";
 import { v4 as uuidv4 } from "uuid";
 import { Room } from "./types/room.type";
 import { User } from "./types/user.type";
 import { Message } from "./types/message.type";
+import path from "path";
+import fs from "fs";
 
 export const HandleAction = (
   wss: WebSocket.Server,
@@ -21,7 +23,6 @@ export const HandleAction = (
   message: RawData,
   listRoom: Map<string, any>
 ) => {
-  console.log(`Received: ${message}`);
   const messageAction: MessageAction = JSON.parse(message.toString());
 
   switch (messageAction.action) {
@@ -178,7 +179,7 @@ export const handleActionSendMessage = (
   messageAction: MessageAction
 ) => {
   const messageData = messageAction.data as MessageChat;
-
+  console.log("CLIENT: ", messageData);
   const room = listRoom.get(messageData.roomId);
 
   if (!room) {
@@ -199,6 +200,13 @@ export const handleActionSendMessage = (
       (timeSendMessage.getMinutes() < 10
         ? "0" + timeSendMessage.getMinutes()
         : timeSendMessage.getMinutes()),
+    roomId: messageData.roomId,
+    typeOfMessage:
+      messageData.typeOfMessage === TypeOfMessage.Text
+        ? TypeOfMessage.Text
+        : TypeOfMessage.UploadFile,
+    extendsion: messageData.extendsion,
+    fileSize: messageData.fileSize,
   };
 
   room.messages.push(message);
@@ -281,23 +289,6 @@ export const handleActionLeaveRoom = (
 
   console.log(room.users);
 
-  // wss.clients.forEach(function (client: WebSocket) {
-  //   if (client.readyState === WebSocket.OPEN) {
-  //     const messageSend: MessageReturn = {
-  //       action: ActionOfMessage.LeaveRoom,
-  //       data: {
-  //         username: messageData.author,
-  //         roomId: messageData.roomId,
-  //         rooms: listRoomUserHasJoin,
-  //       }
-  //     };
-
-  //     room.users.forEach((_) => {
-  //       client.send(JSON.stringify(messageSend));
-  //     });
-  //   }
-  // });
-
   const messageSend: MessageReturn = {
     action: ActionOfMessage.LeaveRoom,
     data: {
@@ -308,4 +299,50 @@ export const handleActionLeaveRoom = (
   };
 
   ws.send(JSON.stringify(messageSend));
+};
+export const handleActionUploadFile = async (
+  ws: WebSocket,
+  listRoom: Map<string, any>,
+  message: RawData
+) => {
+  let hasClosed = false;
+  const fileData: Uint8Array[] = [];
+
+  const onChunk = (chunk: Uint8Array) => {
+    fileData.push(chunk);
+  };
+
+  const callbackFnc = (error: any) => {
+    if (error) console.log(error);
+    else {
+      console.log("File written successfully\n");
+    }
+  };
+
+  ws.on("message", onChunk);
+
+  ws.once("close", async () => {
+    if (hasClosed) {
+      return; // Exit if already closed
+    }
+    hasClosed = true;
+
+    ws.removeListener("message", onChunk); // Remove the message listener
+
+    const filename = `${Date.now()}-uploaded-file`;
+
+    const filenameToSave = `${filename}.png`;
+    console.log(filenameToSave);
+    const filePath = path.join(__dirname, "../uploads", filenameToSave);
+    console.log(filePath);
+
+    try {
+      await fs.writeFileSync(filePath, Buffer.concat(fileData));
+      console.log("File saved:", filename);
+      ws.send("File uploaded successfully.");
+    } catch (error) {
+      console.error("Error saving file:", error);
+      ws.send("File upload failed.");
+    }
+  });
 };

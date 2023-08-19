@@ -1,4 +1,4 @@
-import { TypeMessage } from "./enum";
+import { TypeMessage, TypeOfMessage } from "./enum";
 
 export type MessageAction = {
   action: TypeMessage;
@@ -17,10 +17,13 @@ export type MessageReceive = {
 };
 
 export type MessageChat = {
+  typeOfMessage: TypeOfMessage;
   roomId: string;
   author: string;
   content: string;
   time?: string;
+  extendsion?: string,
+  fileSize?: number
 };
 
 export type MessageChatByRoom = {
