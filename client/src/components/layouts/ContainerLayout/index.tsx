@@ -15,13 +15,15 @@ interface Props {
 }
 
 const ContainerLayout: React.FC<Props> = ({ username }) => {
+  console.log(process.env.REACT_APP_WEBSOCKET_SERVER);
   const [roomName, setRoomName] = useState('');
   const [roomId, setRoomId] = useState('');
 
   const [statusSelectRoom, setStatusSelectRoom] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [messages, setMessages] = useState<MessageChat[]>([]);
-  const { sendMessage, lastMessage } = useWebSocket('ws://localhost:4000');
+
+  const { sendMessage, lastMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_SERVER as string);
 
   const handleMessage = (event: any) => {
     const data: MessageReceive = JSON.parse(event.data);
@@ -34,6 +36,11 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
         setRooms(data.data);
         break;
       case TypeMessage.JoinRoom:
+        for (let room of data.data as Room[]) {
+          if (room.roomId === roomId) {
+            setRoomName(room.roomName);
+          }
+        }
         setRooms(data.data);
         break;
       case TypeMessage.SendMessage:
@@ -53,7 +60,6 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
     }
   };
 
-  // Listen for changes in the lastMessage to handle received messages
   useEffect(() => {
     if (lastMessage !== null) {
       handleMessage(lastMessage);
@@ -62,13 +68,13 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
 
   useEffect(() => {
     setStatusSelectRoom(!roomName ? false : true);
-  }, [roomName]);
+  }, [roomName, rooms]);
 
-  const roomLabel = (value: any) => {
+  const roomLabel = (value: string) => {
     setRoomName(value);
   };
 
-  const idRoom = (value: any) => {
+  const idRoom = (value: string) => {
     setRoomId(value);
   };
 
@@ -77,7 +83,6 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
       <Col span={4}>
         <ListRooms setRoom={roomLabel} setRoomId={idRoom} sendMessage={sendMessage} username={username!} rooms={rooms} roomId={roomId} />
       </Col>
-
       {statusSelectRoom ? (
         <Col span={20} style={{ borderLeft: '1px solid' }}>
           <ChatContents
@@ -91,7 +96,7 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
         </Col>
       ) : (
         <ColEmpty span={20}>
-          <EmptyLayout sendMessage={sendMessage} username={username!} />
+          <EmptyLayout sendMessage={sendMessage} username={username!} setRoomId={setRoomId} roomId={roomId} />
         </ColEmpty>
       )}
     </Row>

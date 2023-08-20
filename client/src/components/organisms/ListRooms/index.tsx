@@ -40,6 +40,7 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
     setIsModalCreateRoomOpen,
     setIsModalJoinRoomOpen,
     sendMessage,
+    setRoomId,
   );
 
   useEffect(() => {

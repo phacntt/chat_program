@@ -1,20 +1,30 @@
-import { FC, useEffect } from 'react';
-import { UploadFile } from './style';
+import { FC, useEffect, useRef } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
+import { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload';
+import { UploadFileAreaStyle } from './style';
 
 interface Props {
   handleFileChange: (info: any) => void;
-  files: File[];
-  setFiles: (files: File[]) => void;
+  resetKey: number;
+  fileList: UploadFile<any>[];
 }
 
-const UploadFileArea: FC<Props> = ({ handleFileChange, files, setFiles }) => {
+const UploadFileArea: FC<Props> = ({ handleFileChange, resetKey, fileList }) => {
   return (
-    <UploadFile multiple beforeUpload={() => false} customRequest={() => {}} showUploadList onChange={handleFileChange} listType="picture">
+    <UploadFileAreaStyle
+      multiple
+      beforeUpload={() => false}
+      customRequest={() => {}}
+      key={resetKey}
+      fileList={fileList}
+      showUploadList
+      onChange={handleFileChange}
+      listType="picture"
+    >
       <Button icon={<UploadOutlined />}>Upload</Button>
-    </UploadFile>
+    </UploadFileAreaStyle>
   );
 };
 

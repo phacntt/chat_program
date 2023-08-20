@@ -14,9 +14,10 @@ interface Props {
   roomId: string;
   files?: File[];
   uploadFiles?: (files: File[]) => Promise<any[]>;
+  clearFiles: () => void;
 }
 
-const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId, files, uploadFiles }) => {
+const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId, files, uploadFiles, clearFiles }) => {
   const [messageSend, setMessageSend] = useState<MessageChat>();
   const [contentInput, setContentInput] = useState('');
 
@@ -66,7 +67,9 @@ const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId
   const sendMessages = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && messageSend?.content !== '') {
       if (contentInput === '') {
-        if (files && files.length !== 0) await handleSendMessageToServer(TypeOfMessage.UploadFile);
+        if (files && files.length !== 0) {
+          await handleSendMessageToServer(TypeOfMessage.UploadFile);
+        }
       } else {
         await handleSendMessageToServer(TypeOfMessage.Text);
         setContentInput('');
@@ -85,6 +88,7 @@ const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId
         setContentInput('');
       }
     }
+    await clearFiles();
   };
 
   const handleChange = (e: any) => {

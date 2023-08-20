@@ -39,7 +39,7 @@ const ListRoomFooter: FC<Props> = ({ isModalCreateRoomOpen, isModalJoinRoomOpen,
         <ButtonJoinRoomAtListRoom onClick={typeButton => statusModal.showModal(typeButton)} typeButtonClick={statusModal.typeButton} />
       </GroupButtonAtListRoom>
       <ModalCreateRoom isModalCreateRoomOpen={isModalCreateRoomOpen} statusModal={statusModal} onChange={onChangeCreateRoom} roomName={roomName} />
-      <ModalJoinRoom isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} onChange={onChangeJoinRoom} roomId={roomId} />
+      <ModalJoinRoom isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} onChange={onChangeJoinRoom} />
     </React.Fragment>
   );
 };

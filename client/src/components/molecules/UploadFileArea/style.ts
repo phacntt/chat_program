@@ -1,7 +1,7 @@
 import { Upload } from 'antd';
 import styled from 'styled-components';
 
-export const UploadFile = styled(Upload)`
+export const UploadFileAreaStyle = styled(Upload)`
   display: flex;
   align-items: center;
 

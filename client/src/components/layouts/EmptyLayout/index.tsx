@@ -11,22 +11,15 @@ import ModalCreateRoom from 'components/molecules/ModalCreateRoom';
 interface Props {
   sendMessage: (message: any) => void;
   username: string;
+  setRoomId: (roomId: any) => void;
+  roomId: string;
 }
 
-const EmptyLayout: FC<Props> = ({ sendMessage, username }) => {
+const EmptyLayout: FC<Props> = ({ sendMessage, username, setRoomId, roomId }) => {
   const [isModalCreateRoomOpen, setIsModalCreateRoomOpen] = useState(false);
   const [isModalJoinRoomOpen, setIsModalJoinRoomOpen] = useState(false);
   const [typeButton, setTypeButton] = useState<StatusButtonEmptyLayout>(StatusButtonEmptyLayout.Create);
   const [roomName, setRoomName] = useState<string>('');
-  const [roomId, setRoomId] = useState<string>('');
-
-  const onChangeCreateRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomName(e.target.value);
-  };
-
-  const onChangeJoinRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomId(e.target.value);
-  };
 
   const statusModal = new StatusModalCreateAndJoinRoom(
     typeButton,
@@ -35,7 +28,19 @@ const EmptyLayout: FC<Props> = ({ sendMessage, username }) => {
     setIsModalCreateRoomOpen,
     setIsModalJoinRoomOpen,
     sendMessage,
+    setRoomId,
   );
+
+  const onChangeCreateRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+    statusModal.roomValue = e.target.value;
+    setRoomName(e.target.value);
+  };
+
+  const onChangeJoinRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+    statusModal.roomValue = e.target.value;
+    setRoomId(e.target.value);
+    console.log(statusModal.roomValue);
+  };
 
   useEffect(() => {
     statusModal.roomValue = roomName;
@@ -53,7 +58,7 @@ const EmptyLayout: FC<Props> = ({ sendMessage, username }) => {
         <ButtonJoinRoom onClick={typeButton => statusModal.showModal(typeButton)} typeButtonClick={statusModal.typeButton} />
       </GroupButtonAction>
       <ModalCreateRoom isModalCreateRoomOpen={isModalCreateRoomOpen} statusModal={statusModal} onChange={onChangeCreateRoom} roomName={roomName} />
-      <ModalJoinRoom isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} onChange={onChangeJoinRoom} roomId={roomId} />
+      <ModalJoinRoom isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} onChange={onChangeJoinRoom} />
     </LayoutEmpty>
   );
 };

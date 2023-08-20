@@ -51,7 +51,7 @@ const ItemRooms: FC<Props> = ({ items, roomId, setRoom, setRoomId, sendMessage }
         }
       }}
       items={items}
-      defaultOpenKeys={[`'${roomId}'`]}
+      defaultSelectedKeys={[`${roomId}`]}
     />
   );
 };

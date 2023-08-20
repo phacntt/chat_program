@@ -14,7 +14,7 @@ const FileAnother: FC<Props> = ({ fileName, fileSize }) => {
     <ContainerFileAnother>
       <FileTwoTone />
       <ContainerDetailFileAnother>
-        <a href={`http://localhost:4000/${fileName}`} target="_blank" download={true} rel="noreferrer">
+        <a href={(process.env.REACT_APP_SERVER as string).concat('/' + fileName)} target="_blank" download={true} rel="noreferrer">
           <div>{fileName.slice(fileName.indexOf('-') + 1, fileName.length)}</div>
         </a>
         <DetailFileAnotherSize>{convertFileSize(fileSize)}</DetailFileAnotherSize>

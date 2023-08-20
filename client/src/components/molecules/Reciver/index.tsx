@@ -40,7 +40,7 @@ const Reciver: FC<Props> = ({ message }) => {
           <ContentBodyReciver>
             {message.typeOfMessage === TypeOfMessage.UploadFile ? (
               message.extendsion === 'image' ? (
-                <FileImage urlImage={`http://localhost:4000/${message.content}`} />
+                <FileImage urlImage={`${process.env.REACT_APP_SERVER}/${message.content}`} />
               ) : (
                 <FileAnother fileName={message.content} fileSize={message.fileSize!} />
               )

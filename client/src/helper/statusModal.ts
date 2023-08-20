@@ -10,6 +10,7 @@ class StatusModalCreateAndJoinRoom {
   public setIsModalCreateRoomOpen: (status: boolean) => void;
   public setIsModalJoinRoomOpen: (status: boolean) => void;
   public sendMessageToServer: (message: any) => void;
+  public setRoomId: (roomId: string) => void;
 
   constructor(
     typeButton: StatusButtonEmptyLayout,
@@ -18,6 +19,7 @@ class StatusModalCreateAndJoinRoom {
     setIsModalCreateRoomOpen: (status: boolean) => void,
     setIsModalJoinRoomOpen: (status: boolean) => void,
     sendMessageToServer: (message: any) => void,
+    setRoomId: (roomId: string) => void,
   ) {
     this.typeButton = typeButton;
     this.username = username;
@@ -25,6 +27,7 @@ class StatusModalCreateAndJoinRoom {
     this.setIsModalCreateRoomOpen = setIsModalCreateRoomOpen;
     this.setIsModalJoinRoomOpen = setIsModalJoinRoomOpen;
     this.sendMessageToServer = sendMessageToServer;
+    this.setRoomId = setRoomId;
   }
 
   public showModal = (type: StatusButtonEmptyLayout) => {
@@ -38,6 +41,7 @@ class StatusModalCreateAndJoinRoom {
   };
 
   public handleOk = () => {
+    console.log(this.roomValue);
     if (this.roomValue) {
       if (this.typeButton === StatusButtonEmptyLayout.Create) {
         const messageCreateRoom: MessageCreateRoom = {
@@ -65,6 +69,7 @@ class StatusModalCreateAndJoinRoom {
 
         this.sendMessageToServer(JSON.stringify(message));
         this.setIsModalJoinRoomOpen(false);
+        this.setRoomId(this.roomValue);
       }
     }
   };

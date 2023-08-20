@@ -10,6 +10,8 @@ interface Props {
 }
 
 const ChatBody: FC<Props> = ({ messages }) => {
+  console.log(messages);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

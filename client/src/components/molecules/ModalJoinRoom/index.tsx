@@ -7,13 +7,12 @@ interface Props {
   statusModal: StatusModalCreateAndJoinRoom;
   isModalJoinRoomOpen: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  roomId: string;
 }
 
-const ModalJoinRoom: FC<Props> = ({ statusModal, isModalJoinRoomOpen, onChange, roomId }) => {
+const ModalJoinRoom: FC<Props> = ({ statusModal, isModalJoinRoomOpen, onChange }) => {
   return (
     <Modal title="Join Room" open={isModalJoinRoomOpen} onOk={statusModal.handleOk} onCancel={statusModal.handleCancel}>
-      <Input value={roomId} onChange={onChange} placeholder="Enter Room ID" />
+      <Input onChange={onChange} placeholder="Enter Room ID" />
     </Modal>
   );
 };

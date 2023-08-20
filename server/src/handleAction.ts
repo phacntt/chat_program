@@ -14,8 +14,6 @@ import { v4 as uuidv4 } from "uuid";
 import { Room } from "./types/room.type";
 import { User } from "./types/user.type";
 import { Message } from "./types/message.type";
-import path from "path";
-import fs from "fs";
 
 export const HandleAction = (
   wss: WebSocket.Server,
@@ -24,7 +22,6 @@ export const HandleAction = (
   listRoom: Map<string, any>
 ) => {
   const messageAction: MessageAction = JSON.parse(message.toString());
-  console.log("ListRoom: ", listRoom)
 
   switch (messageAction.action) {
     case ActionOfMessage.CreateRoom:
@@ -180,7 +177,7 @@ export const handleActionSendMessage = (
   messageAction: MessageAction
 ) => {
   const messageData = messageAction.data as MessageChat;
-  console.log("CLIENT: ", messageData);
+
   const room = listRoom.get(messageData.roomId);
 
   if (!room) {
@@ -300,9 +297,6 @@ export const handleActionLeaveRoom = (
       }
     });
   }
-  console.log("ROOM: ", room);
-
-  console.log("USERS: ", room.users);
 
   const messageSend: MessageReturn = {
     action: ActionOfMessage.LeaveRoom,
