@@ -1,14 +1,8 @@
-import { TypeMessage, TypeOfMessage } from "./enum";
+import { TypeMessage, TypeOfMessage } from './enum';
 
 export type MessageAction = {
   action: TypeMessage;
-  data:
-    | MessageChat
-    | MessageCreateRoom
-    | MessageJoinRoom
-    | MessageListRoomsByAuthor
-    | MessageListMessagesByRoomId
-    | MessageLeaveRoom;
+  data: MessageChat | MessageCreateRoom | MessageJoinRoom | MessageListRoomsByAuthor | MessageListMessagesByRoomId | MessageLeaveRoom;
 };
 
 export type MessageReceive = {
@@ -22,8 +16,8 @@ export type MessageChat = {
   author: string;
   content: string;
   time?: string;
-  extendsion?: string,
-  fileSize?: number
+  extendsion?: string;
+  fileSize?: number;
 };
 
 export type MessageChatByRoom = {

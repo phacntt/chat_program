@@ -1,7 +1,7 @@
-import { Button } from "antd";
-import { styled } from "styled-components";
+import { Button } from 'antd';
+import { styled } from 'styled-components';
 
 export const LoginButton = styled(Button)`
-    height: 50px !important;
-    font-size: 24px
-`
+  height: 50px !important;
+  font-size: 24px;
+`;

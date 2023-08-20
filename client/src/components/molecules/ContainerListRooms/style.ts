@@ -1,6 +1,6 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const ContainerRooms = styled.div`
-    overflow: auto;
-    height: 84vh;
+  overflow: auto;
+  height: 84vh;
 `;

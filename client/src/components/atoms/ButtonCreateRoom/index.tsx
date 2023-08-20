@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
-import { ButtonCreateRoomChat } from "./style";
-import { StatusButtonEmptyLayout } from "types/statusButtonEmptyLayout.type";
+import React, { FC } from 'react';
+import { ButtonCreateRoomChat } from './style';
+import { StatusButtonEmptyLayout } from 'types/statusButtonEmptyLayout.type';
 
 interface Props {
   onClick: (type: StatusButtonEmptyLayout) => void;
@@ -9,12 +9,7 @@ interface Props {
 
 const ButtonCreateRoom: FC<Props> = ({ onClick, typeButtonClick }) => {
   return (
-    <ButtonCreateRoomChat
-      onClick={() => onClick(StatusButtonEmptyLayout.Create)}
-      size="large"
-      type="primary"
-      value={typeButtonClick}
-    >
+    <ButtonCreateRoomChat onClick={() => onClick(StatusButtonEmptyLayout.Create)} size="large" type="primary" value={typeButtonClick}>
       Create Room
     </ButtonCreateRoomChat>
   );

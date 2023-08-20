@@ -1,12 +1,12 @@
-import { Col, Row } from "antd";
-import { ButtonLeaveChat } from "components/atoms/ButtonLeaveChat";
-import ChatBody from "components/molecules/ChatBody";
-import ChatHeader from "components/molecules/ChatHeader";
-import React, { FC, useEffect, useState } from "react";
-import { MessageChat } from "types/messageAction.types";
-import { ButtonLeaveChatRoom } from "./style";
-import UploadFileArea from "components/molecules/UploadFileArea";
-import ChatFooter from "components/molecules/ChatFooter";
+import { Col, Row } from 'antd';
+import { ButtonLeaveChat } from 'components/atoms/ButtonLeaveChat';
+import ChatBody from 'components/molecules/ChatBody';
+import ChatHeader from 'components/molecules/ChatHeader';
+import React, { FC, useState } from 'react';
+import { MessageChat } from 'types/messageAction.types';
+import { ButtonLeaveChatRoom } from './style';
+import UploadFileArea from 'components/molecules/UploadFileArea';
+import ChatFooter from 'components/molecules/ChatFooter';
 
 interface Props {
   roomName: string;
@@ -17,15 +17,7 @@ interface Props {
   setRoomName: (roomName: string) => void;
 }
 
-
-const ChatContents: FC<Props> = ({
-  roomName,
-  messages,
-  author,
-  roomId,
-  sendMessage,
-  setRoomName,
-}) => {
+const ChatContents: FC<Props> = ({ roomName, messages, author, roomId, sendMessage, setRoomName }) => {
   const [messageChat, setMessageChat] = useState<MessageChat>();
   const [files, setFiles] = useState<File[]>([]);
 
@@ -34,12 +26,12 @@ const ChatContents: FC<Props> = ({
   };
 
   const uploadFiles = async (files: File[]) => {
-    const uploadPromises = files.map(async (file) => {
+    const uploadPromises = files.map(async file => {
       const formData = new FormData();
-      formData.append("files", file);
+      formData.append('files', file);
 
-      const response = await fetch("http://localhost:4000/upload", {
-        method: "POST",
+      const response = await fetch('http://localhost:4000/upload', {
+        method: 'POST',
         body: formData,
       });
 
@@ -49,7 +41,7 @@ const ChatContents: FC<Props> = ({
 
     const results = await Promise.all(uploadPromises);
     return results;
-  }
+  };
 
   const handleFileChange = (info: any) => {
     setFiles(info.fileList.map((file: any) => file.originFileObj));
@@ -63,12 +55,7 @@ const ChatContents: FC<Props> = ({
         </Col>
         <Col span={4}>
           <ButtonLeaveChatRoom>
-            <ButtonLeaveChat
-              sendMessage={sendMessage}
-              setRoomName={setRoomName}
-              roomId={roomId}
-              username={author}
-            />
+            <ButtonLeaveChat sendMessage={sendMessage} setRoomName={setRoomName} roomId={roomId} username={author} />
           </ButtonLeaveChatRoom>
         </Col>
       </Row>
@@ -79,7 +66,7 @@ const ChatContents: FC<Props> = ({
       </Row>
       <Row>
         <Col span={24}>
-          <UploadFileArea handleFileChange={handleFileChange} files={files} setFiles={setFiles}/>
+          <UploadFileArea handleFileChange={handleFileChange} files={files} setFiles={setFiles} />
         </Col>
         <Col>
           {files.length != 0 ? (
@@ -92,12 +79,7 @@ const ChatContents: FC<Props> = ({
               uploadFiles={uploadFiles}
             />
           ) : (
-            <ChatFooter
-              contentMessageSend={messageFromInput}
-              sendMessage={sendMessage}
-              author={author}
-              roomId={roomId}
-            />
+            <ChatFooter contentMessageSend={messageFromInput} sendMessage={sendMessage} author={author} roomId={roomId} />
           )}
         </Col>
       </Row>

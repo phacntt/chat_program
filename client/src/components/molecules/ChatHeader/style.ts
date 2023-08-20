@@ -1,6 +1,6 @@
-import { Avatar } from "antd";
-import { Header } from "antd/es/layout/layout";
-import { styled } from "styled-components";
+import { Avatar } from 'antd';
+import { Header } from 'antd/es/layout/layout';
+import { styled } from 'styled-components';
 
 export const ContainerHeaderChat = styled.div`
   display: flex;

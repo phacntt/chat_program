@@ -1,16 +1,13 @@
-import { Avatar, MenuProps } from "antd";
-import ContainerListRooms from "components/molecules/ContainerListRooms";
-import StatusModalCreateAndJoinRoom from "helper/statusModal";
-import React, { FC, useEffect, useState } from "react";
-import { StatusButtonEmptyLayout } from "types/statusButtonEmptyLayout.type";
-import ListRoomHeader from "components/molecules/ListRoomHeader";
-import ListRoomFooter from "components/molecules/ListRoomFooter";
-import {
-  MessageListRoomsByAuthor,
-  MessageAction,
-} from "types/messageAction.types";
-import { TypeMessage } from "types/enum";
-import { Room } from "types/room.type";
+import { Avatar, MenuProps } from 'antd';
+import ContainerListRooms from 'components/molecules/ContainerListRooms';
+import StatusModalCreateAndJoinRoom from 'helper/statusModal';
+import React, { FC, useEffect, useState } from 'react';
+import { StatusButtonEmptyLayout } from 'types/statusButtonEmptyLayout.type';
+import ListRoomHeader from 'components/molecules/ListRoomHeader';
+import ListRoomFooter from 'components/molecules/ListRoomFooter';
+import { MessageListRoomsByAuthor, MessageAction } from 'types/messageAction.types';
+import { TypeMessage } from 'types/enum';
+import { Room } from 'types/room.type';
 
 interface Props {
   setRoom: (room: string) => void;
@@ -25,23 +22,16 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
   const [isModalCreateRoomOpen, setIsModalCreateRoomOpen] = useState(false);
   const [items, setItems] = useState<any[]>([]);
   const [isModalJoinRoomOpen, setIsModalJoinRoomOpen] = useState(false);
-  const [typeButton, setTypeButton] = useState<StatusButtonEmptyLayout>(
-    StatusButtonEmptyLayout.Create
-  );
-  
+  const [typeButton, setTypeButton] = useState<StatusButtonEmptyLayout>(StatusButtonEmptyLayout.Create);
+
   useEffect(() => {
-    const items: MenuProps["items"] = [...rooms].map((room, index) => ({
+    const items: MenuProps['items'] = [...rooms].map((room, index) => ({
       key: room.roomId,
-      icon: (
-        <Avatar
-          size={"large"}
-          src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2"
-        />
-      ),
+      icon: <Avatar size={'large'} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />,
       label: room.roomName,
     }));
-    setItems(items)
-  }, [rooms])
+    setItems(items);
+  }, [rooms]);
 
   const statusModal = new StatusModalCreateAndJoinRoom(
     typeButton,
@@ -49,7 +39,7 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
     setTypeButton,
     setIsModalCreateRoomOpen,
     setIsModalJoinRoomOpen,
-    sendMessage
+    sendMessage,
   );
 
   useEffect(() => {
@@ -69,11 +59,7 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
     <div>
       <ListRoomHeader username={username} />
       <ContainerListRooms items={items} setRoom={setRoom} setRoomId={setRoomId} sendMessage={sendMessage} roomId={roomId} />
-      <ListRoomFooter
-        isModalCreateRoomOpen={isModalCreateRoomOpen}
-        isModalJoinRoomOpen={isModalJoinRoomOpen}
-        statusModal={statusModal}
-      />
+      <ListRoomFooter isModalCreateRoomOpen={isModalCreateRoomOpen} isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} />
     </div>
   );
 };

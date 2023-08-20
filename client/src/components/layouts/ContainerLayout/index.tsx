@@ -1,30 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row } from "antd";
-import ChatContents from "components/organisms/Chat";
-import EmptyLayout from "components/layouts/EmptyLayout";
-import ListRooms from "components/organisms/ListRooms";
-import { ColEmpty } from "./style";
-import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
-import { Room } from "types/room.type";
-import {
-  MessageChat,
-  MessageReceive,
-} from "types/messageAction.types";
-import { TypeMessage } from "types/enum";
-import { VariableLocal } from "constant";
+import React, { useEffect, useState } from 'react';
+import { Col, Row } from 'antd';
+import ChatContents from 'components/organisms/Chat';
+import EmptyLayout from 'components/layouts/EmptyLayout';
+import ListRooms from 'components/organisms/ListRooms';
+import { ColEmpty } from './style';
+import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
+import { Room } from 'types/room.type';
+import { MessageChat, MessageReceive } from 'types/messageAction.types';
+import { TypeMessage } from 'types/enum';
+import { VariableLocal } from 'constant';
 
 interface Props {
   username: string;
 }
 
 const ContainerLayout: React.FC<Props> = ({ username }) => {
-  const [roomName, setRoomName] = useState("");
-  const [roomId, setRoomId] = useState("");
+  const [roomName, setRoomName] = useState('');
+  const [roomId, setRoomId] = useState('');
 
   const [statusSelectRoom, setStatusSelectRoom] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [messages, setMessages] = useState<MessageChat[]>([]);
-  const { sendMessage, lastMessage } = useWebSocket("ws://localhost:4000");
+  const { sendMessage, lastMessage } = useWebSocket('ws://localhost:4000');
 
   const handleMessage = (event: any) => {
     const data: MessageReceive = JSON.parse(event.data);
@@ -49,7 +46,6 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
         setMessages(data.data);
         break;
       case TypeMessage.LeaveRoom:
-        console.log("ROOM NE: ", data.data.rooms)
         setRooms(data.data.rooms);
         break;
       default:
@@ -79,18 +75,11 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
   return (
     <Row>
       <Col span={4}>
-        <ListRooms
-          setRoom={roomLabel}
-          setRoomId={idRoom}
-          sendMessage={sendMessage}
-          username={username!}
-          rooms={rooms}
-          roomId={roomId}
-        />
+        <ListRooms setRoom={roomLabel} setRoomId={idRoom} sendMessage={sendMessage} username={username!} rooms={rooms} roomId={roomId} />
       </Col>
 
       {statusSelectRoom ? (
-        <Col span={20} style={{borderLeft: "1px solid"}}>
+        <Col span={20} style={{ borderLeft: '1px solid' }}>
           <ChatContents
             roomName={roomName}
             messages={messages!}

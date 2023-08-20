@@ -1,24 +1,20 @@
-import React, { FC, useState } from "react";
-import { ContainerLogin } from "./style";
-import InputUsernameLogin from "components/atoms/InputUsernameLogin";
-import ButtonLogin from "components/atoms/ButtonLogin";
-import { Modal, notification } from "antd";
-import { NotificationType } from "types/notification.type";
-import { VariableLocal } from "constant";
+import React, { FC, useState } from 'react';
+import { ContainerLogin } from './style';
+import InputUsernameLogin from 'components/atoms/InputUsernameLogin';
+import ButtonLogin from 'components/atoms/ButtonLogin';
+import { Modal, notification } from 'antd';
+import { NotificationType } from 'types/notification.type';
+import { VariableLocal } from 'constant';
 
 interface Props {
   handleUsername: (username: string | null) => void;
 }
 
 const Login: FC<Props> = ({ handleUsername }) => {
-  let [username, setUsername] = useState<string>("");
-  const [contentInput, setContentInput] = useState("");
+  let [username, setUsername] = useState<string>('');
+  const [contentInput, setContentInput] = useState('');
   const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (
-    type: NotificationType,
-    title: string,
-    message: string
-  ) => {
+  const openNotificationWithIcon = (type: NotificationType, title: string, message: string) => {
     api[type]({
       message: title,
       description: message,
@@ -28,46 +24,30 @@ const Login: FC<Props> = ({ handleUsername }) => {
   const handleSaveusernameAndResetInput = (username: string) => {
     handleUsername(username);
     localStorage.setItem(VariableLocal.username, username);
-    setContentInput("");
+    setContentInput('');
   };
 
   const loginEnterButton = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (contentInput.length > 20) {
-      openNotificationWithIcon(
-        "error",
-        "Login Failer",
-        "Username just 20 character"
-      );
+      openNotificationWithIcon('error', 'Login Failer', 'Username just 20 character');
       return;
     }
 
-    if (e.key === "Enter" && contentInput !== "" && username !== "") {
+    if (e.key === 'Enter' && contentInput !== '' && username !== '') {
       handleSaveusernameAndResetInput(username);
-      openNotificationWithIcon(
-        "success",
-        "Login Successfully",
-        `Welcome ${username}`
-      );
+      openNotificationWithIcon('success', 'Login Successfully', `Welcome ${username}`);
     }
   };
 
   const loginClickButton = (e: any) => {
     if (contentInput.length > 20) {
-      openNotificationWithIcon(
-        "error",
-        "Login Failer",
-        "Username just 20 character"
-      );
+      openNotificationWithIcon('error', 'Login Failer', 'Username just 20 character');
       return;
     }
 
-    if (contentInput !== "") {
+    if (contentInput !== '') {
       handleSaveusernameAndResetInput(username);
-      openNotificationWithIcon(
-        "success",
-        "Login Successfully",
-        `Welcome ${username}`
-      );
+      openNotificationWithIcon('success', 'Login Successfully', `Welcome ${username}`);
     }
   };
 
@@ -80,11 +60,7 @@ const Login: FC<Props> = ({ handleUsername }) => {
     <React.Fragment>
       <div>{contextHolder}</div>
       <ContainerLogin>
-        <InputUsernameLogin
-          onChange={handleChange}
-          onKeyDown={loginEnterButton}
-          username={username}
-        />
+        <InputUsernameLogin onChange={handleChange} onKeyDown={loginEnterButton} username={username} />
         <ButtonLogin onClick={loginClickButton} />
       </ContainerLogin>
     </React.Fragment>

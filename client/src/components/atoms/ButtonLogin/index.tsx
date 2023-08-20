@@ -1,5 +1,5 @@
-import { Button } from "antd";
-import React, { FC } from "react";
+import { Button } from 'antd';
+import React, { FC } from 'react';
 
 interface Props {
   onClick: (e: React.MouseEvent<HTMLElement>) => void;

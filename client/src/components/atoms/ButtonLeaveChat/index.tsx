@@ -1,9 +1,9 @@
-import React, { FC, useState } from "react";
-import { ButtonLeaveRoomChat, TitleButtonLeaveRoomChat } from "./style";
-import { ExclamationCircleOutlined, LogoutOutlined } from "@ant-design/icons";
-import { Button, Modal } from "antd";
-import { MessageAction, MessageLeaveRoom } from "types/messageAction.types";
-import { TypeMessage } from "types/enum";
+import React, { FC } from 'react';
+import { ButtonLeaveRoomChat, TitleButtonLeaveRoomChat } from './style';
+import { ExclamationCircleOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
+import { MessageAction, MessageLeaveRoom } from 'types/messageAction.types';
+import { TypeMessage } from 'types/enum';
 
 interface Props {
   sendMessage: (message: any) => void;
@@ -16,7 +16,7 @@ export const ButtonLeaveChat: FC<Props> = ({ sendMessage, setRoomName, roomId, u
   const [modal, contextHolder] = Modal.useModal();
 
   const handleClick = () => {
-    setRoomName("");
+    setRoomName('');
     const messageListMessageByRoomId: MessageLeaveRoom = {
       roomId: roomId,
       author: username,
@@ -32,11 +32,11 @@ export const ButtonLeaveChat: FC<Props> = ({ sendMessage, setRoomName, roomId, u
 
   const confirm = () => {
     modal.confirm({
-      title: "Confirm",
+      title: 'Confirm',
       icon: <ExclamationCircleOutlined />,
-      content: "Are you sure leave this room!",
-      okText: "Sure",
-      cancelText: "Cancel",
+      content: 'Are you sure leave this room!',
+      okText: 'Sure',
+      cancelText: 'Cancel',
       afterClose: handleClick,
     });
   };
@@ -44,9 +44,7 @@ export const ButtonLeaveChat: FC<Props> = ({ sendMessage, setRoomName, roomId, u
   return (
     <React.Fragment>
       <ButtonLeaveRoomChat onClick={confirm}>
-        <TitleButtonLeaveRoomChat className="title-button-leave-chat">
-          Leave
-        </TitleButtonLeaveRoomChat>
+        <TitleButtonLeaveRoomChat className="title-button-leave-chat">Leave</TitleButtonLeaveRoomChat>
         <LogoutOutlined />
       </ButtonLeaveRoomChat>
       {contextHolder}

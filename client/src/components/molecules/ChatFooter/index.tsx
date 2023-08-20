@@ -1,11 +1,11 @@
-import { Input, Button } from "antd";
-import ButtonSend from "components/atoms/ButtonSend";
-import InputChat from "components/atoms/InputChat";
-import React, { FC, useEffect } from "react";
-import { useState } from "react";
-import { ContainerSendMessage } from "./style";
-import { MessageAction, MessageChat } from "types/messageAction.types";
-import { TypeMessage, TypeOfMessage } from "types/enum";
+import { Input, Button } from 'antd';
+import ButtonSend from 'components/atoms/ButtonSend';
+import InputChat from 'components/atoms/InputChat';
+import React, { FC, useEffect } from 'react';
+import { useState } from 'react';
+import { ContainerSendMessage } from './style';
+import { MessageAction, MessageChat } from 'types/messageAction.types';
+import { TypeMessage, TypeOfMessage } from 'types/enum';
 
 interface Props {
   contentMessageSend: (message: MessageChat) => void;
@@ -16,22 +16,15 @@ interface Props {
   uploadFiles?: (files: File[]) => Promise<any[]>;
 }
 
-const ChatFooter: FC<Props> = ({
-  contentMessageSend,
-  sendMessage,
-  author,
-  roomId,
-  files,
-  uploadFiles,
-}) => {
+const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId, files, uploadFiles }) => {
   const [messageSend, setMessageSend] = useState<MessageChat>();
-  const [contentInput, setContentInput] = useState("");
+  const [contentInput, setContentInput] = useState('');
 
   const handleSendMessageToServer = async (type: TypeOfMessage) => {
     if (type === TypeOfMessage.UploadFile && files) {
       const uploadResults = await uploadFiles!(files);
 
-      uploadResults.forEach((result) => {
+      uploadResults.forEach(result => {
         console.log(result);
         if (result.status) {
           result.data.forEach((file: any) => {
@@ -40,7 +33,7 @@ const ChatFooter: FC<Props> = ({
               content: file.path,
               roomId: roomId,
               typeOfMessage: TypeOfMessage.UploadFile,
-              extendsion: file.mimetype.slice(0, file.mimetype.indexOf("/")),
+              extendsion: file.mimetype.slice(0, file.mimetype.indexOf('/')),
               fileSize: file.size,
             };
 
@@ -71,26 +64,25 @@ const ChatFooter: FC<Props> = ({
   };
 
   const sendMessages = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && messageSend?.content !== "") {
-      if (contentInput === "") {
-        if (files && files.length !== 0)
-          await handleSendMessageToServer(TypeOfMessage.UploadFile);
+    if (e.key === 'Enter' && messageSend?.content !== '') {
+      if (contentInput === '') {
+        if (files && files.length !== 0) await handleSendMessageToServer(TypeOfMessage.UploadFile);
       } else {
         await handleSendMessageToServer(TypeOfMessage.Text);
-        setContentInput("");
+        setContentInput('');
       }
     }
   };
 
   const sendMessageClickButton = async () => {
-    if (messageSend?.content !== "") {
-      if (contentInput === "") {
+    if (messageSend?.content !== '') {
+      if (contentInput === '') {
         if (files && files.length !== 0) {
           await handleSendMessageToServer(TypeOfMessage.UploadFile);
         }
       } else {
         await handleSendMessageToServer(TypeOfMessage.Text);
-        setContentInput("");
+        setContentInput('');
       }
     }
   };
@@ -102,11 +94,7 @@ const ChatFooter: FC<Props> = ({
 
   return (
     <ContainerSendMessage>
-      <InputChat
-        handleChange={handleChange}
-        sendMessage={sendMessages}
-        messageSend={contentInput}
-      />
+      <InputChat handleChange={handleChange} sendMessage={sendMessages} messageSend={contentInput} />
       <ButtonSend sendMessageClickButton={sendMessageClickButton} />
     </ContainerSendMessage>
   );

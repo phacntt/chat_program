@@ -1,4 +1,4 @@
 export enum StatusButtonEmptyLayout {
-    Create = "Create",
-    Join = "Join"
+  Create = 'Create',
+  Join = 'Join',
 }

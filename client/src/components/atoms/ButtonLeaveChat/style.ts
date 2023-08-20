@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const ButtonLeaveRoomChat = styled.button`
   height: 80px;
@@ -16,5 +16,5 @@ export const ButtonLeaveRoomChat = styled.button`
 `;
 
 export const TitleButtonLeaveRoomChat = styled.div`
-    margin-right: 15px;
-`
+  margin-right: 15px;
+`;

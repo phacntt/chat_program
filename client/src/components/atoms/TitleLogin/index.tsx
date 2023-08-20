@@ -1,12 +1,8 @@
-import React from "react"
-import { TitleStartLogin } from "./style"
+import React from 'react';
+import { TitleStartLogin } from './style';
 
 const TitleLogin = () => {
-    return (
-        <TitleStartLogin>
-            BEFORE STARTED
-        </TitleStartLogin> 
-    )
-}
+  return <TitleStartLogin>BEFORE STARTED</TitleStartLogin>;
+};
 
 export default TitleLogin;

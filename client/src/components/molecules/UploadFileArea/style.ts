@@ -1,5 +1,5 @@
-import { Upload } from "antd";
-import styled from "styled-components";
+import { Upload } from 'antd';
+import styled from 'styled-components';
 
 export const UploadFile = styled(Upload)`
   display: flex;

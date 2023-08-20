@@ -1,10 +1,6 @@
-import { TypeMessage } from "types/enum";
-import {
-  MessageAction,
-  MessageCreateRoom,
-  MessageJoinRoom,
-} from "types/messageAction.types";
-import { StatusButtonEmptyLayout } from "types/statusButtonEmptyLayout.type";
+import { TypeMessage } from 'types/enum';
+import { MessageAction, MessageCreateRoom, MessageJoinRoom } from 'types/messageAction.types';
+import { StatusButtonEmptyLayout } from 'types/statusButtonEmptyLayout.type';
 
 class StatusModalCreateAndJoinRoom {
   public typeButton: StatusButtonEmptyLayout;
@@ -21,7 +17,7 @@ class StatusModalCreateAndJoinRoom {
     setTypeButton: (typeButton: StatusButtonEmptyLayout) => void,
     setIsModalCreateRoomOpen: (status: boolean) => void,
     setIsModalJoinRoomOpen: (status: boolean) => void,
-    sendMessageToServer: (message: any) => void
+    sendMessageToServer: (message: any) => void,
   ) {
     this.typeButton = typeButton;
     this.username = username;
@@ -74,9 +70,7 @@ class StatusModalCreateAndJoinRoom {
   };
 
   public handleCancel = () => {
-    this.typeButton === StatusButtonEmptyLayout.Create
-      ? this.setIsModalCreateRoomOpen(false)
-      : this.setIsModalJoinRoomOpen(false);
+    this.typeButton === StatusButtonEmptyLayout.Create ? this.setIsModalCreateRoomOpen(false) : this.setIsModalJoinRoomOpen(false);
   };
 }
 
