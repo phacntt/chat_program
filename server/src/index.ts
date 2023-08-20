@@ -42,7 +42,6 @@ wss.on("connection", (ws) => {
 });
 
 app.post("/upload", upload.array("files"), (req, res) => {
-  // console.log("Files uploaded:", req.files);
   res
     .status(200)
     .json({

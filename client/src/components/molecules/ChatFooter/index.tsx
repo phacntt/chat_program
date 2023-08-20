@@ -26,7 +26,6 @@ const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId
       const uploadResults = await uploadFiles!(files);
 
       uploadResults.forEach(result => {
-        console.log(result);
         if (result.status) {
           result.data.forEach((file: any) => {
             const messageSend: MessageChat = {

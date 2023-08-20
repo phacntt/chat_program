@@ -15,7 +15,6 @@ interface Props {
 }
 
 const ContainerLayout: React.FC<Props> = ({ username }) => {
-  console.log(process.env.REACT_APP_WEBSOCKET_SERVER);
   const [roomName, setRoomName] = useState('');
   const [roomId, setRoomId] = useState('');
 

@@ -39,7 +39,6 @@ const EmptyLayout: FC<Props> = ({ sendMessage, username, setRoomId, roomId }) =>
   const onChangeJoinRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
     statusModal.roomValue = e.target.value;
     setRoomId(e.target.value);
-    console.log(statusModal.roomValue);
   };
 
   useEffect(() => {

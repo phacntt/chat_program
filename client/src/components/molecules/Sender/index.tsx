@@ -12,11 +12,9 @@ interface Props {
 }
 
 const Sender: FC<Props> = ({ message }) => {
-  console.log(message);
   return (
     <React.Fragment>
       <MessageSender>
-        {/* <ContentMessageSender>{content}</ContentMessageSender> */}
         <ContentMessageSender>
           {message.typeOfMessage === TypeOfMessage.UploadFile ? (
             message.extendsion === 'image' ? (
