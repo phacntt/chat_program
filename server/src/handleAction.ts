@@ -24,6 +24,7 @@ export const HandleAction = (
   listRoom: Map<string, any>
 ) => {
   const messageAction: MessageAction = JSON.parse(message.toString());
+  console.log("ListRoom: ", listRoom)
 
   switch (messageAction.action) {
     case ActionOfMessage.CreateRoom:
@@ -271,6 +272,19 @@ export const handleActionLeaveRoom = (
     (user: User) => user.username !== messageData.author
   );
 
+  if (room.users.length === 0) {
+    listRoom.delete(messageData.roomId);
+  }
+
+  if (
+    !room.users.find((user: User) => user.username === room.author) &&
+    room.users.length !== 0
+  ) {
+    const [firstElement] = room.users;
+    room.author = firstElement.username;
+  }
+
+  // Return list room has join of user
   const listRoomUserHasJoin: Room[] = [];
 
   let arrayRooms: any[] = [];
@@ -286,8 +300,9 @@ export const handleActionLeaveRoom = (
       }
     });
   }
+  console.log("ROOM: ", room);
 
-  console.log(room.users);
+  console.log("USERS: ", room.users);
 
   const messageSend: MessageReturn = {
     action: ActionOfMessage.LeaveRoom,
@@ -299,50 +314,4 @@ export const handleActionLeaveRoom = (
   };
 
   ws.send(JSON.stringify(messageSend));
-};
-export const handleActionUploadFile = async (
-  ws: WebSocket,
-  listRoom: Map<string, any>,
-  message: RawData
-) => {
-  let hasClosed = false;
-  const fileData: Uint8Array[] = [];
-
-  const onChunk = (chunk: Uint8Array) => {
-    fileData.push(chunk);
-  };
-
-  const callbackFnc = (error: any) => {
-    if (error) console.log(error);
-    else {
-      console.log("File written successfully\n");
-    }
-  };
-
-  ws.on("message", onChunk);
-
-  ws.once("close", async () => {
-    if (hasClosed) {
-      return; // Exit if already closed
-    }
-    hasClosed = true;
-
-    ws.removeListener("message", onChunk); // Remove the message listener
-
-    const filename = `${Date.now()}-uploaded-file`;
-
-    const filenameToSave = `${filename}.png`;
-    console.log(filenameToSave);
-    const filePath = path.join(__dirname, "../uploads", filenameToSave);
-    console.log(filePath);
-
-    try {
-      await fs.writeFileSync(filePath, Buffer.concat(fileData));
-      console.log("File saved:", filename);
-      ws.send("File uploaded successfully.");
-    } catch (error) {
-      console.error("Error saving file:", error);
-      ws.send("File upload failed.");
-    }
-  });
 };
