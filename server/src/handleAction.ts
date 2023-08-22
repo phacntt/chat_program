@@ -103,6 +103,8 @@ export const handleActionJoinRoom = (
 
   const room = listRoom.get(messageData.roomId);
 
+  if (!room) return;
+
   const isUserJoin = room?.users.find(
     (user: User) => user.username === messageData.author
   );
@@ -133,7 +135,11 @@ export const handleActionJoinRoom = (
 
   const messageSend: MessageReturn = {
     action: ActionOfMessage.JoinRoom,
-    data: listRoomsUserJoin,
+    data: {
+      room: room,
+      rooms: listRoomsUserJoin,
+      messages: room.messages
+    }
   };
 
   ws.send(JSON.stringify(messageSend));
