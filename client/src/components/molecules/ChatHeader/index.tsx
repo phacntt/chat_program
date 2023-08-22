@@ -4,18 +4,18 @@ import React, { FC } from 'react';
 import { ContainerHeaderChat, HeaderChat, HeaderDetail } from './style';
 
 interface Props {
-  reciver: string;
+  roomName: string;
   roomId: string;
 }
 
-const ChatHeader: FC<Props> = ({ reciver, roomId }) => {
+const ChatHeader: FC<Props> = ({ roomName, roomId }) => {
   return (
     <ContainerHeaderChat>
       <HeaderChat>
         <Avatar size={'large'} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
       </HeaderChat>
       <HeaderDetail>
-        <LabelChatHeader reciver={reciver} />
+        <LabelChatHeader roomName={roomName} />
         <div>ID: {roomId}</div>
       </HeaderDetail>
     </ContainerHeaderChat>

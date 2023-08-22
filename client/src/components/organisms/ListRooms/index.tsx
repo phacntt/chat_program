@@ -1,6 +1,5 @@
 import { Avatar, MenuProps } from 'antd';
 import ContainerListRooms from 'components/molecules/ContainerListRooms';
-import StatusModalCreateAndJoinRoom from 'helper/statusModal';
 import React, { FC, useEffect, useState } from 'react';
 import { StatusButtonEmptyLayout } from 'types/statusButtonEmptyLayout.type';
 import ListRoomHeader from 'components/molecules/ListRoomHeader';
@@ -8,6 +7,7 @@ import ListRoomFooter from 'components/molecules/ListRoomFooter';
 import { MessageListRoomsByAuthor, MessageAction } from 'types/messageAction.types';
 import { TypeMessage } from 'types/enum';
 import { Room } from 'types/room.type';
+import { statusModalCreateAndJoinRoom } from 'helper/statusModal';
 
 interface Props {
   setRoom: (room: string) => void;
@@ -33,15 +33,7 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
     setItems(items);
   }, [rooms]);
 
-  const statusModal = new StatusModalCreateAndJoinRoom(
-    typeButton,
-    username,
-    setTypeButton,
-    setIsModalCreateRoomOpen,
-    setIsModalJoinRoomOpen,
-    sendMessage,
-    setRoomId,
-  );
+  const statusModal = statusModalCreateAndJoinRoom(username, setTypeButton, setIsModalCreateRoomOpen, setIsModalJoinRoomOpen, sendMessage, setRoomId);
 
   useEffect(() => {
     const messageListRoomsByAuthor: MessageListRoomsByAuthor = {
@@ -60,7 +52,12 @@ const ListRooms: FC<Props> = ({ setRoom, setRoomId, sendMessage, username, rooms
     <div>
       <ListRoomHeader username={username} />
       <ContainerListRooms items={items} setRoom={setRoom} setRoomId={setRoomId} sendMessage={sendMessage} roomId={roomId} />
-      <ListRoomFooter isModalCreateRoomOpen={isModalCreateRoomOpen} isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} />
+      <ListRoomFooter
+        isModalCreateRoomOpen={isModalCreateRoomOpen}
+        isModalJoinRoomOpen={isModalJoinRoomOpen}
+        statusModal={statusModal}
+        typeButton={typeButton}
+      />
     </div>
   );
 };

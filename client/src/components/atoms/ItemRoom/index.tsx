@@ -1,9 +1,5 @@
-import { Menu } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import { MenuListRoom } from './style';
-import { Room } from 'types/room.type';
-import { MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import { MessageAction, MessageListMessagesByRoomId } from 'types/messageAction.types';
 import { TypeMessage } from 'types/enum';
 import { VariableLocal } from 'constant';
@@ -51,7 +47,7 @@ const ItemRooms: FC<Props> = ({ items, roomId, setRoom, setRoomId, sendMessage }
         }
       }}
       items={items}
-      defaultSelectedKeys={[`${roomId}`]}
+      defaultSelectedKeys={[roomId]}
     />
   );
 };

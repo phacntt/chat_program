@@ -1,6 +1,4 @@
 import React, { FC } from 'react';
-import { Avatar, Card, CardProps, TabPaneProps } from 'antd';
-import { title } from 'process';
 import { MessageSender, ContentMessageSender, ContentFooterMessageSender } from './style';
 import { MessageChat } from 'types/messageAction.types';
 import { TypeOfMessage } from 'types/enum';

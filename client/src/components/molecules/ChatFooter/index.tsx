@@ -1,14 +1,12 @@
-import { Input, Button } from 'antd';
 import ButtonSend from 'components/atoms/ButtonSend';
 import InputChat from 'components/atoms/InputChat';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useState } from 'react';
 import { ContainerSendMessage } from './style';
 import { MessageAction, MessageChat } from 'types/messageAction.types';
 import { TypeMessage, TypeOfMessage } from 'types/enum';
 
 interface Props {
-  contentMessageSend: (message: MessageChat) => void;
   sendMessage: (message: any) => void;
   author: string;
   roomId: string;
@@ -17,7 +15,7 @@ interface Props {
   clearFiles: () => void;
 }
 
-const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId, files, uploadFiles, clearFiles }) => {
+const ChatFooter: FC<Props> = ({ sendMessage, author, roomId, files, uploadFiles, clearFiles }) => {
   const [messageSend, setMessageSend] = useState<MessageChat>();
   const [contentInput, setContentInput] = useState('');
 
@@ -63,29 +61,27 @@ const ChatFooter: FC<Props> = ({ contentMessageSend, sendMessage, author, roomId
     }
   };
 
+  const handleSendMessage = async (contentInput: string, files: File[]) => {
+    if (contentInput === '') {
+      if (files && files.length !== 0) {
+        await handleSendMessageToServer(TypeOfMessage.UploadFile);
+      }
+    } else {
+      await handleSendMessageToServer(TypeOfMessage.Text);
+      setContentInput('');
+    }
+  };
+
   const sendMessages = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && messageSend?.content !== '') {
-      if (contentInput === '') {
-        if (files && files.length !== 0) {
-          await handleSendMessageToServer(TypeOfMessage.UploadFile);
-        }
-      } else {
-        await handleSendMessageToServer(TypeOfMessage.Text);
-        setContentInput('');
-      }
+      await handleSendMessage(contentInput, files!);
     }
+    await clearFiles();
   };
 
   const sendMessageClickButton = async () => {
     if (messageSend?.content !== '') {
-      if (contentInput === '') {
-        if (files && files.length !== 0) {
-          await handleSendMessageToServer(TypeOfMessage.UploadFile);
-        }
-      } else {
-        await handleSendMessageToServer(TypeOfMessage.Text);
-        setContentInput('');
-      }
+      await handleSendMessage(contentInput, files!);
     }
     await clearFiles();
   };

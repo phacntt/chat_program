@@ -35,12 +35,14 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
         setRooms(data.data);
         break;
       case TypeMessage.JoinRoom:
-        for (let room of data.data as Room[]) {
+        for (let room of data.data.rooms as Room[]) {
           if (room.roomId === roomId) {
             setRoomName(room.roomName);
           }
         }
-        setRooms(data.data);
+        setRoomId(data.data.room.roomId);
+        setMessages(data.data.messages);
+        setRooms(data.data.rooms);
         break;
       case TypeMessage.SendMessage:
         if (data.data.roomId === currentRoom) {
@@ -69,18 +71,18 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
     setStatusSelectRoom(!roomName ? false : true);
   }, [roomName, rooms]);
 
-  const roomLabel = (value: string) => {
+  const onSetRoomLabel = (value: string) => {
     setRoomName(value);
   };
 
-  const idRoom = (value: string) => {
+  const onSetRoomId = (value: string) => {
     setRoomId(value);
   };
 
   return (
     <Row>
       <Col span={4}>
-        <ListRooms setRoom={roomLabel} setRoomId={idRoom} sendMessage={sendMessage} username={username!} rooms={rooms} roomId={roomId} />
+        <ListRooms setRoom={onSetRoomLabel} setRoomId={onSetRoomId} sendMessage={sendMessage} username={username!} rooms={rooms} roomId={roomId} />
       </Col>
       {statusSelectRoom ? (
         <Col span={20} style={{ borderLeft: '1px solid' }}>
@@ -90,12 +92,12 @@ const ContainerLayout: React.FC<Props> = ({ username }) => {
             author={username!}
             roomId={roomId}
             sendMessage={sendMessage}
-            setRoomName={setRoomName}
+            setRoomName={onSetRoomLabel}
           />
         </Col>
       ) : (
         <ColEmpty span={20}>
-          <EmptyLayout sendMessage={sendMessage} username={username!} setRoomId={setRoomId} roomId={roomId} />
+          <EmptyLayout sendMessage={sendMessage} username={username!} setRoomId={onSetRoomId} roomId={roomId} />
         </ColEmpty>
       )}
     </Row>

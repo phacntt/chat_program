@@ -1,8 +1,8 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
-import { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload';
+import { UploadFile } from 'antd/es/upload';
 import { UploadFileAreaStyle } from './style';
 
 interface Props {

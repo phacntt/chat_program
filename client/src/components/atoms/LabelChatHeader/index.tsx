@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import { LabelNameRoom } from './style';
 
 interface Props {
-  reciver: string;
+  roomName: string;
 }
 
-const LabelChatHeader: FC<Props> = ({ reciver }) => {
-  return <LabelNameRoom>{reciver}</LabelNameRoom>;
+const LabelChatHeader: FC<Props> = ({ roomName }) => {
+  return <LabelNameRoom>{roomName}</LabelNameRoom>;
 };
 
 export default LabelChatHeader;

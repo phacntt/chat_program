@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { ButtonLeaveRoomChat, TitleButtonLeaveRoomChat } from './style';
 import { ExclamationCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';

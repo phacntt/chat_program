@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { ContainerLogin } from './style';
 import InputUsernameLogin from 'components/atoms/InputUsernameLogin';
 import ButtonLogin from 'components/atoms/ButtonLogin';
-import { Modal, notification } from 'antd';
+import { notification } from 'antd';
 import { NotificationType } from 'types/notification.type';
 import { VariableLocal } from 'constant';
 

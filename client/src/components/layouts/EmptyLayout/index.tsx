@@ -4,9 +4,9 @@ import { GroupButtonAction, LayoutEmpty } from './style';
 import ButtonCreateRoom from 'components/atoms/ButtonCreateRoom';
 import ButtonJoinRoom from 'components/atoms/ButtonJoinRoom';
 import { StatusButtonEmptyLayout } from 'types/statusButtonEmptyLayout.type';
-import StatusModalCreateAndJoinRoom from 'helper/statusModal';
 import ModalJoinRoom from 'components/molecules/ModalJoinRoom';
 import ModalCreateRoom from 'components/molecules/ModalCreateRoom';
+import { statusModalCreateAndJoinRoom } from 'helper/statusModal';
 
 interface Props {
   sendMessage: (message: any) => void;
@@ -21,43 +21,37 @@ const EmptyLayout: FC<Props> = ({ sendMessage, username, setRoomId, roomId }) =>
   const [typeButton, setTypeButton] = useState<StatusButtonEmptyLayout>(StatusButtonEmptyLayout.Create);
   const [roomName, setRoomName] = useState<string>('');
 
-  const statusModal = new StatusModalCreateAndJoinRoom(
-    typeButton,
-    username,
-    setTypeButton,
-    setIsModalCreateRoomOpen,
-    setIsModalJoinRoomOpen,
-    sendMessage,
-    setRoomId,
-  );
+  const statusModal = statusModalCreateAndJoinRoom(username, setTypeButton, setIsModalCreateRoomOpen, setIsModalJoinRoomOpen, sendMessage, setRoomId);
 
   const onChangeCreateRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    statusModal.roomValue = e.target.value;
     setRoomName(e.target.value);
   };
 
   const onChangeJoinRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    statusModal.roomValue = e.target.value;
     setRoomId(e.target.value);
   };
-
-  useEffect(() => {
-    statusModal.roomValue = roomName;
-  }, [roomName]);
-
-  useEffect(() => {
-    statusModal.roomValue = roomId;
-  }, [roomId]);
 
   return (
     <LayoutEmpty>
       <Empty />
       <GroupButtonAction>
-        <ButtonCreateRoom onClick={typeButton => statusModal.showModal(typeButton)} typeButtonClick={statusModal.typeButton} />
-        <ButtonJoinRoom onClick={typeButton => statusModal.showModal(typeButton)} typeButtonClick={statusModal.typeButton} />
+        <ButtonCreateRoom onClick={statusModal.showModal} typeButtonClick={typeButton} />
+        <ButtonJoinRoom onClick={statusModal.showModal} typeButtonClick={typeButton} />
       </GroupButtonAction>
-      <ModalCreateRoom isModalCreateRoomOpen={isModalCreateRoomOpen} statusModal={statusModal} onChange={onChangeCreateRoom} roomName={roomName} />
-      <ModalJoinRoom isModalJoinRoomOpen={isModalJoinRoomOpen} statusModal={statusModal} onChange={onChangeJoinRoom} />
+      <ModalCreateRoom
+        isModalCreateRoomOpen={isModalCreateRoomOpen}
+        typeButton={typeButton}
+        statusModal={statusModal}
+        onChange={onChangeCreateRoom}
+        roomName={roomName}
+      />
+      <ModalJoinRoom
+        isModalJoinRoomOpen={isModalJoinRoomOpen}
+        typeButton={typeButton}
+        statusModal={statusModal}
+        onChange={onChangeJoinRoom}
+        roomId={roomId}
+      />
     </LayoutEmpty>
   );
 };
